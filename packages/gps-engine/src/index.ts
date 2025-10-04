@@ -1,4 +1,17 @@
-import type { GPSLocation, ARMarker } from '@meta-the-world/core';
+// Define types locally to avoid circular dependencies
+interface GPSLocation {
+  latitude: number;
+  longitude: number;
+  altitude?: number;
+  accuracy?: number;
+  timestamp?: number;
+}
+
+interface ARMarker {
+  id: string;
+  position: GPSLocation;
+  content: any;
+}
 
 export class GPSEngine {
   private currentLocation: GPSLocation | null = null;

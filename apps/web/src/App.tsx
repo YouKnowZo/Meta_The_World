@@ -8,8 +8,7 @@ import {
   Loader,
   PerspectiveCamera
 } from '@react-three/drei'
-import { EffectComposer, Bloom, ToneMapping, SSAO, DepthOfField, Noise } from '@react-three/postprocessing'
-import { BlendFunction } from 'postprocessing'
+import { EffectComposer, Bloom, ToneMapping } from '@react-three/postprocessing'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
 import { useGameStore } from './store'
@@ -172,53 +171,26 @@ function Scene() {
         <LandPlot key={land.id} land={land} />
       ))}
 
-      {/* Ultra-Realistic Post Processing Pipeline */}
-      <EffectComposer multisampling={16} stencilBuffer={false} depthBuffer={true}>
-        {/* Advanced Bloom with Multiple Passes */}
+      {/* Post Processing Pipeline */}
+      <EffectComposer multisampling={8}>
+        {/* Bloom Effect */}
         <Bloom 
-          intensity={0.6}
-          luminanceThreshold={0.85}
-          luminanceSmoothing={0.9}
-          height={800}
-          kernelSize={5}
+          intensity={0.8}
+          luminanceThreshold={0.7}
+          luminanceSmoothing={0.8}
+          height={400}
+          kernelSize={3}
           mipmapBlur={true}
-          levels={9}
         />
         
-        {/* Cinematic Tone Mapping */}
+        {/* Tone Mapping */}
         <ToneMapping 
           adaptive={true}
-          resolution={512}
-          middleGrey={0.4}
-          maxLuminance={20.0}
-          averageLuminance={0.8}
-          adaptationRate={2.0}  
-        />
-        
-        {/* Screen Space Ambient Occlusion */}
-        <SSAO
-          samples={32}
-          radius={0.1}
-          intensity={1.2}
-          bias={0.005}
-          distanceThreshold={0.5}
-          worldDistanceThreshold={0.5}
-          worldDistanceFalloff={0.1}
-          worldProximityThreshold={0.02}
-          worldProximityFalloff={0.005}
-        />
-        
-        {/* Depth of Field */}
-        <DepthOfField 
-          focusDistance={50}
-          focalLength={0.02}
-          bokehScale={2.0}
-        />
-        
-        {/* Film Grain */}
-        <Noise 
-          premultiply
-          blendFunction={BlendFunction.SCREEN}
+          resolution={256}
+          middleGrey={0.6}
+          maxLuminance={16.0}
+          averageLuminance={1.0}
+          adaptationRate={1.5}
         />
       </EffectComposer>
     </>

@@ -1,5 +1,4 @@
-export * from '@meta-the-world/gps-engine';
-export * from '@meta-the-world/core';
+// GPS package - standalone implementation
 
 // React hooks for GPS functionality
 export function useGPSLocation() {
