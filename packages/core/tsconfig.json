@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@core/*": ["../core/src/*"],
+      "@gps/*": ["../gps/src/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}

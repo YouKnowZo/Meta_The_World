@@ -1,0 +1,17 @@
+{
+  "name": "@meta-the-world/gps-engine",
+  "version": "1.0.0",
+  "description": "GPS and location services for Meta The World",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@meta-the-world/core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "@types/node": "^22.0.0"
+  }
+}

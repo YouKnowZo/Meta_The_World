@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "name": "Debug Mobile",
+      "request": "launch",
+      "type": "reactnative",
+      "program": "${workspaceFolder}/apps/mobile/index.js"
+    },
+    {
+      "name": "Debug Web",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/apps/web"
+    }
+  ]
+}
