@@ -1,0 +1,55 @@
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.ui-overlay {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.ui-overlay h1 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+}
+
+.ui-overlay p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.connect-button, .mint-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 10px 0;
+  transition: background 0.3s;
+}
+
+.connect-button:hover, .mint-button:hover {
+  background: #0056b3;
+}
+
+.canvas-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
