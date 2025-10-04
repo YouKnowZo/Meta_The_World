@@ -2519,3 +2519,7 @@ body::before {
   color: rgba(255,255,255,0.6);
   word-break: break-all;
 }
+
+.land-rarity {
+  color: var(--rarity-color);
+}

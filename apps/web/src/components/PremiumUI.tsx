@@ -361,7 +361,7 @@ export const PremiumUI: React.FC<PremiumUIProps> = ({ cryptoData }) => {
               
               <div className="land-info">
                 <h3>Land #{selectedLand.id}</h3>
-                <div className="land-rarity" style={{ color: getRarityColor(selectedLand.type) }}>
+                <div className="land-rarity" style={{ '--rarity-color': getRarityColor(selectedLand.type) } as React.CSSProperties}>
                   ✨ {selectedLand.type.toUpperCase()} RARITY
                 </div>
                 

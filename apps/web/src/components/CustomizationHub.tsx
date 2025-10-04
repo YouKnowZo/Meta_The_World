@@ -233,7 +233,7 @@ export const CustomizationHub: React.FC = () => {
             {activeCategory === 'avatar' && (
               <div className="avatar-preview">
                 <div className="avatar-model">
-                  <span style={{ fontSize: '4rem' }}>👤</span>
+                  <span className="large-icon">👤</span>
                   <div className="avatar-details">
                     <p>Skin: {currentAvatar.appearance.skin}</p>
                     <p>Hair: {currentAvatar.appearance.hair}</p>
@@ -246,7 +246,7 @@ export const CustomizationHub: React.FC = () => {
             
             {activeCategory === 'vehicle' && (
               <div className="vehicle-preview">
-                <span style={{ fontSize: '4rem' }}>🚗</span>
+                <span className="large-icon">🚗</span>
                 <div className="vehicle-stats">
                   <div className="stat-bar">
                     <span>Speed</span>
@@ -266,7 +266,7 @@ export const CustomizationHub: React.FC = () => {
             
             {activeCategory === 'home' && (
               <div className="home-preview">
-                <span style={{ fontSize: '4rem' }}>🏠</span>
+                <span className="large-icon">🏠</span>
                 <div className="home-details">
                   <p>Type: {homes[0]?.type}</p>
                   <p>Rooms: {homes[0]?.rooms.length}</p>
@@ -377,7 +377,7 @@ export const CustomizationHub: React.FC = () => {
                   {vehicles.map(vehicle => (
                     <div key={vehicle.id} className={`vehicle-card ${vehicle.owned ? 'owned' : ''}`}>
                       <div className="vehicle-image">
-                        <span style={{ fontSize: '2rem' }}>🚗</span>
+                        <span className="medium-icon">🚗</span>
                       </div>
                       <div className="vehicle-info">
                         <h4>{vehicle.brand} {vehicle.model}</h4>
@@ -419,7 +419,7 @@ export const CustomizationHub: React.FC = () => {
                       <div key={room.id} className="room-card">
                         <h5>{room.type.replace('-', ' ')}</h5>
                         <div className="room-preview">
-                          <span style={{ fontSize: '1.5rem' }}>
+                          <span className="small-icon">
                             {room.type === 'bedroom' && '🛏️'}
                             {room.type === 'living-room' && '🛋️'}
                             {room.type === 'kitchen' && '🍳'}
