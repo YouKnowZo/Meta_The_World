@@ -19,12 +19,13 @@
         <p class="hero__eyebrow">Welcome to the Mirrorverse</p>
         <h1 class="hero__title">META THE WORLD</h1>
         <p class="hero__subtitle">
-          A geo-anchored metaverse where your alternate life unfolds across augmented skylines,
-          community-built districts, and evolving NFT-based realities.
+          A photoreal, GPS-anchored life simulator that out-evolves every metaverse—real-time crowd AI,
+          generative architecture, and a creator economy that rewards every decision.
         </p>
         <div class="hero__cta">
           <a class="button button--primary" href="#map">Explore Your City</a>
           <a class="button button--ghost" href="#nfts">Mint a Topology Shard</a>
+          <a class="button button--secondary" href="#economy">See Profit Engine</a>
         </div>
       </div>
       <div class="hero__visual">
@@ -57,6 +58,55 @@
         </div>
       </section>
 
+      <section id="pillars" class="section">
+        <div class="section__header">
+          <h2>Beyond Simulation — Welcome to Hyperreality</h2>
+          <p>
+            META THE WORLD fuses cinematic rendering, behavioural AI, and real-time economics to craft
+            the most compelling life playground ever built. Every action has consequence, every fantasy
+            has a ledger.
+          </p>
+        </div>
+        <div class="pillar-grid">
+          <article class="pillar-card">
+            <h3>Hyperreal Life Systems</h3>
+            <p>
+              Neural-driven characters mirror human emotion, habits, and ambition. Day/night,
+              weather, and biofeedback tie to real-world data feeds for authentic immersion.
+            </p>
+            <ul>
+              <li>Photometric lighting for city-scale AR</li>
+              <li>Adaptive routines for NPC citizens</li>
+              <li>Holistic wellbeing meters synced to wearables</li>
+            </ul>
+          </article>
+          <article class="pillar-card">
+            <h3>Social Gravity Loop</h3>
+            <p>
+              Create family legacies, form guild incubators, launch nightlife circuits. Social presence
+              persists across AR, VR, desktop, and mobile for attrition-proof engagement.
+            </p>
+            <ul>
+              <li>Shared quests & episodic dramas</li>
+              <li>Relationship AI modelling attachment & rivalry</li>
+              <li>Cross-platform presence & push moments</li>
+            </ul>
+          </article>
+          <article class="pillar-card">
+            <h3>Creator Profit Engine</h3>
+            <p>
+              2.75% protocol fee on every asset, event, or service. Shard owners, builders, and
+              investors share yield through tiered royalties and automated vaults.
+            </p>
+            <ul>
+              <li>Composable smart-contract storefronts</li>
+              <li>AI pricing models optimise conversion</li>
+              <li>Instant fiat on-ramps with dynamic spreads</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
       <section id="map" class="section section--inverse">
         <div class="section__header">
           <h2>Drop into any coordinate</h2>
@@ -78,8 +128,51 @@
               A floating market above the Hudson, funded by DAO patrons and curated by reality
               editors. Visit IRL to unlock AI merchants and rare wearables.
             </p>
+            <ul class="map-card__metrics">
+              <li id="map-card-volume">24h Volume · $4.2M</li>
+              <li id="map-card-traffic">Live Visitors · 182K</li>
+            </ul>
             <a href="#nfts" class="button button--secondary">View Shard Page</a>
           </div>
+        </div>
+      </section>
+
+      <section id="pulse" class="section">
+        <div class="section__header">
+          <h2>Daily Pulse · Addicting by Design</h2>
+          <p>
+            Real-time KPIs prove META THE WORLD’s stickiness. Social loops, economic stakes, and
+            personalised quests keep retention rates unmatched.
+          </p>
+        </div>
+        <div class="stat-grid">
+          <article class="stat-card">
+            <span class="stat-card__label">Concurrent Dreamers</span>
+            <span class="stat-card__value" id="stat-concurrent">128,431</span>
+            <span class="stat-card__delta positive" id="stat-concurrent-delta">+4.6%</span>
+            <small>Peak session length: 187 minutes</small>
+          </article>
+          <article class="stat-card">
+            <span class="stat-card__label">Creator Retention (30d)</span>
+            <span class="stat-card__value" id="stat-retention">87.9%</span>
+            <span class="stat-card__delta positive" id="stat-retention-delta">+1.9%</span>
+            <small>Guild streaks multiply XP + revenue</small>
+          </article>
+          <article class="stat-card">
+            <span class="stat-card__label">Average ARPPU</span>
+            <span class="stat-card__value" id="stat-arppu">$164.32</span>
+            <span class="stat-card__delta positive" id="stat-arppu-delta">+7.4%</span>
+            <small>Microservices take protocol fee on settle</small>
+          </article>
+          <article class="stat-card">
+            <span class="stat-card__label">Quests Completed / hr</span>
+            <span class="stat-card__value" id="stat-quests">41,220</span>
+            <span class="stat-card__delta positive" id="stat-quests-delta">+12.3%</span>
+            <small>Dynamic arcs branch from biometrics</small>
+          </article>
+        </div>
+        <div class="ticker" id="transaction-ticker">
+          <div class="ticker__track" id="ticker-track"></div>
         </div>
       </section>
 
@@ -157,6 +250,77 @@
             </ul>
             <button class="button button--secondary">Trade Shard</button>
           </article>
+        </div>
+      </section>
+
+      <section id="economy" class="section section--split">
+        <div class="section__content">
+          <h2>Profit Architecture</h2>
+          <p>
+            META THE WORLD takes a protocol spread on every transaction while rewarding the creators
+            who fuel the universe. Transparent ledgers and automated vaults handle splits in real time.
+          </p>
+          <div class="economy-grid">
+            <article class="economy-card">
+              <h3>Protocol Share</h3>
+              <p><strong>2.75%</strong> fee skimmed from trades, rentals, service gigs, and tips.</p>
+              <ul>
+                <li>1.25% to network treasury</li>
+                <li>0.75% to stability & liquidity pool</li>
+                <li>0.75% to cross-platform growth fund</li>
+              </ul>
+            </article>
+            <article class="economy-card">
+              <h3>Creator & Investor Yield</h3>
+              <p>
+                Dynamic royalties split between shard architect, current owner, and district DAO based
+                on engagement heat score.
+              </p>
+              <ul>
+                <li>Performance multipliers for daily active visitors</li>
+                <li>Instant settlement via streaming payments</li>
+                <li>Premium boosts unlocked by staking `META` token</li>
+              </ul>
+            </article>
+            <article class="economy-card">
+              <h3>Player Monetization</h3>
+              <p>
+                Lifestyle services—dating concierges, fashion drops, therapy pods—let players convert
+                time into revenue. Protocol earns on every booking.
+              </p>
+              <ul>
+                <li>AI-managed storefronts with upsell funnels</li>
+                <li>Sponsored narrative arcs for brands</li>
+                <li>P2P service escrow with dispute resolution AI</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+        <div class="section__media section__media--stacked">
+          <div class="revenue-panel">
+            <h3>24h Revenue Snapshot</h3>
+            <dl>
+              <div>
+                <dt>Gross Volume</dt>
+                <dd id="rev-gross">$12.4M</dd>
+              </div>
+              <div>
+                <dt>Protocol Profit</dt>
+                <dd id="rev-profit">$341K</dd>
+              </div>
+              <div>
+                <dt>Creator Payouts</dt>
+                <dd id="rev-creators">$9.8M</dd>
+              </div>
+              <div>
+                <dt>Investor Yield</dt>
+                <dd id="rev-investors">$2.2M</dd>
+              </div>
+            </dl>
+            <p class="revenue-panel__note">
+              Projections generated from Alpha cohort telemetry, extrapolated to global launch scale.
+            </p>
+          </div>
         </div>
       </section>
 
