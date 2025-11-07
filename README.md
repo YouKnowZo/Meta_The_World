@@ -1,2 +1,27 @@
-# Meta_The_World
-AR/VR Metaverse with NFT Land Ownership
+# META THE WORLD
+
+Immersive mirrorverse concept that reimagines real-world locations as community-built dreamscapes. This repository contains a visual prototype of the experience and the flagship Topology Shard NFT drop.
+
+## Experience Highlights
+
+- **GPS Mirrorverse:** Overlay alternate realities on real coordinates through an interactive map preview.
+- **Shard Forge:** Glimpse the creation suite with a stylized 3D district rendered in Three.js.
+- **Topology Shards:** Showcase of GPS-bound NFTs with tiered unlockables, lore, and economic hooks.
+- **Launch Trajectory:** Roadmap illustrating how creators, investors, and collectors join the ecosystem.
+
+## Getting Started
+
+1. Open `web/index.html` in any modern browser.
+2. Ensure you have internet access for external CDNs (Google Fonts, Leaflet, Three.js).
+3. Interact with:
+   - The **map toggles** to preview different shard timelines.
+   - The **3D shard forge** for a rotating district mock.
+   - The **NFT cards** for an overview of unlockable utilities.
+
+## Next Steps
+
+- Expand the map dataset with live API feeds and user-generated shards.
+- Connect wallet flows and smart-contract prototypes for the Topology Shard collection.
+- Build collaborative authoring tools that sync GPS overlays with AR-ready assets.
+
+META THE WORLD invites people to design the lives they always imagined—one coordinate at a time.

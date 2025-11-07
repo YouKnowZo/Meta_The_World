@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>META THE WORLD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <p class="hero__eyebrow">Welcome to the Mirrorverse</p>
+        <h1 class="hero__title">META THE WORLD</h1>
+        <p class="hero__subtitle">
+          A geo-anchored metaverse where your alternate life unfolds across augmented skylines,
+          community-built districts, and evolving NFT-based realities.
+        </p>
+        <div class="hero__cta">
+          <a class="button button--primary" href="#map">Explore Your City</a>
+          <a class="button button--ghost" href="#nfts">Mint a Topology Shard</a>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <canvas id="hero-constellation"></canvas>
+      </div>
+    </header>
+
+    <main>
+      <section id="about" class="section section--split">
+        <div class="section__media">
+          <div class="hologram">
+            <div class="hologram__grid"></div>
+            <div class="hologram__glow"></div>
+            <div class="hologram__copy">Reality Editor Badge</div>
+          </div>
+        </div>
+        <div class="section__content">
+          <h2>Build the life you always imagined</h2>
+          <p>
+            Layer your vision onto real-world GPS coordinates. Reimagine the streets you walk every
+            day with surreal architecture, curated communities, and a thriving creative economy.
+            Architects, investors, storytellers, and collectors collaborate to transform city blocks
+            into living narratives.
+          </p>
+          <ul class="feature-list">
+            <li><strong>GPS-native overlays:</strong> Align your builds to real locations and unlock AR moments for on-site visitors.</li>
+            <li><strong>Creator economies:</strong> Earn with shard upgrades, district events, and curated commercial drops.</li>
+            <li><strong>Adaptive lore:</strong> The world evolves as communities interact, vote, and invest in collective dreams.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="map" class="section section--inverse">
+        <div class="section__header">
+          <h2>Drop into any coordinate</h2>
+          <p>
+            Toggle realities to see how builders are remixing the world. Every shard reflects the
+            owner’s vision and the community’s response.
+          </p>
+        </div>
+        <div class="map-wrapper">
+          <div id="reality-map"></div>
+          <div class="map-overlay">
+            <button class="toggle" data-mode="alpha">Alpha Reality</button>
+            <button class="toggle is-active" data-mode="prime">Prime Build</button>
+            <button class="toggle" data-mode="echo">Echo Timeline</button>
+          </div>
+          <div class="map-card">
+            <h3 id="map-card-title">Shard 07 · Neo-Galactic Bazaar</h3>
+            <p id="map-card-body">
+              A floating market above the Hudson, funded by DAO patrons and curated by reality
+              editors. Visit IRL to unlock AI merchants and rare wearables.
+            </p>
+            <a href="#nfts" class="button button--secondary">View Shard Page</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="forge" class="section section--split">
+        <div class="section__content">
+          <h2>Shard Forge</h2>
+          <p>
+            Sculpt your district inside the Shard Forge. Blend procedural skyscrapers, custom
+            fashion drops, responsive NPCs, and live events—all anchored to the real world.
+          </p>
+          <p>
+            Each change writes to the chain, evolving the shard’s metadata and unlocking new
+            economic layers. Collaborate with investors using staking pools to accelerate your build.
+          </p>
+          <div class="pill-group">
+            <span class="pill">Generative Architecture</span>
+            <span class="pill">AI Fashion Atelier</span>
+            <span class="pill">Tokenized Events</span>
+            <span class="pill">District DAOs</span>
+          </div>
+        </div>
+        <div class="section__media">
+          <canvas id="forge-preview"></canvas>
+        </div>
+      </section>
+
+      <section id="nfts" class="section">
+        <div class="section__header">
+          <h2>Topology Shards · Genesis Collection</h2>
+          <p>
+            Limited GPS-anchored NFTs that unlock augmented moments, builder royalties, and
+            community governance. Mint, evolve, and trade living cityscapes.
+          </p>
+        </div>
+        <div class="card-grid">
+          <article class="card">
+            <div class="card__badge">Tier IV</div>
+            <h3>Helios Ascendant</h3>
+            <p>
+              Suspended solar decks orbit downtown Lagos. AR concerts trigger light storms tied to
+              live audio streams.
+            </p>
+            <ul>
+              <li>Unlockable architect toolkit</li>
+              <li>Event staking multiplier</li>
+              <li>Exclusive luminous wearable drop</li>
+            </ul>
+            <button class="button button--primary">Join Mint List</button>
+          </article>
+          <article class="card">
+            <div class="card__badge">Tier II</div>
+            <h3>Mirage Monastery</h3>
+            <p>
+              Kyoto alley transformed into a spatial meditation labyrinth. Physical visitors receive
+              soulbound serenity tokens.
+            </p>
+            <ul>
+              <li>Two co-creator passes</li>
+              <li>AI guide narrative system</li>
+              <li>Dynamic aura skins</li>
+            </ul>
+            <button class="button button--ghost">View Lore</button>
+          </article>
+          <article class="card">
+            <div class="card__badge">Tier III</div>
+            <h3>Atlantis Refracted</h3>
+            <p>
+              Miami shoreline reimagined as a prismatic amphitheater. Unlock underwater quests and
+              modular sea pods.
+            </p>
+            <ul>
+              <li>Creator revenue split</li>
+              <li>Metaverse yacht garage</li>
+              <li>DAO vote multiplier 3×</li>
+            </ul>
+            <button class="button button--secondary">Trade Shard</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="roadmap" class="section section--inverse">
+        <div class="section__header">
+          <h2>Launch Trajectory</h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline__item">
+            <h3>Q1 · Creator Alpha</h3>
+            <p>Invite-only access to shard forge, GPS claim previews, and AI-assisted design tools.</p>
+          </div>
+          <div class="timeline__item">
+            <h3>Q2 · District DAOs</h3>
+            <p>Launch governance framework, staking pools, and collaborative district curation.</p>
+          </div>
+          <div class="timeline__item">
+            <h3>Q3 · AR Reality Drops</h3>
+            <p>On-location quests, wearable airdrops, and interactive story arcs triggered by GPS presence.</p>
+          </div>
+          <div class="timeline__item">
+            <h3>Q4 · Global Mirror</h3>
+            <p>Open marketplace, investor dashboards, and cross-metaverse asset interoperability.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__brand">
+        <span class="footer__logo">META THE WORLD</span>
+        <p>Rewrite reality, one coordinate at a time.</p>
+      </div>
+      <div class="footer__links">
+        <a href="#about">Vision</a>
+        <a href="#forge">Build</a>
+        <a href="#nfts">Collect</a>
+        <a href="#roadmap">Roadmap</a>
+      </div>
+      <div class="footer__social">
+        <a href="#">Discord</a>
+        <a href="#">Mirror</a>
+        <a href="#">X</a>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
