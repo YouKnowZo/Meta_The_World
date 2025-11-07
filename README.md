@@ -8,6 +8,7 @@ Immersive mirrorverse concept that reimagines real-world locations as community-
 - **Hyperreal Pillars:** Explore life-sim pillars that blend neural NPCs, social gravity loops, and a creator-first profit engine.
 - **Shard Forge:** Glimpse the creation suite with a stylized 3D district rendered in Three.js.
 - **Daily Pulse:** Live KPI dashboard and transaction ticker that underline retention loops and protocol revenue streams.
+- **Life Path Architect:** Interactive builder that predicts profits, engagement, and influence for any dream lifestyle.
 - **Topology Shards:** Showcase of GPS-bound NFTs with tiered unlockables, lore, and economic hooks.
 - **Launch Trajectory:** Roadmap illustrating how creators, investors, and collectors join the ecosystem.
 
@@ -18,6 +19,7 @@ Immersive mirrorverse concept that reimagines real-world locations as community-
 3. Interact with:
    - The **map toggles** to preview different shard timelines.
    - The **Daily Pulse** stats and **transaction ticker** to monitor live engagement + revenue projections.
+   - The **Life Path Architect** to mix personas, districts, and ventures into a personalised profit loop.
    - The **3D shard forge** for a rotating district mock with volumetric lighting and orbiting agents.
    - The **NFT cards** for an overview of unlockable utilities and tier perks.
 

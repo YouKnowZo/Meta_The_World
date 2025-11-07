@@ -446,6 +446,414 @@ if (revenueElements.gross && revenueElements.profit && revenueElements.creators 
 }
 
 /**
+ * Life Path Architect
+ */
+const builderElements = {
+  selects: {
+    persona: document.getElementById("builder-persona"),
+    district: document.getElementById("builder-district"),
+    venture: document.getElementById("builder-venture"),
+    mobility: document.getElementById("builder-mobility"),
+    relationship: document.getElementById("builder-relationship"),
+  },
+  title: document.getElementById("builder-title"),
+  description: document.getElementById("builder-description"),
+  profit: document.getElementById("builder-profit"),
+  engagement: document.getElementById("builder-engagement"),
+  influence: document.getElementById("builder-influence"),
+  timeline: document.getElementById("builder-timeline"),
+  randomise: document.getElementById("builder-randomise"),
+  schedule: document.getElementById("builder-schedule"),
+};
+
+if (
+  builderElements.title &&
+  builderElements.description &&
+  builderElements.profit &&
+  builderElements.engagement &&
+  builderElements.influence &&
+  builderElements.timeline &&
+  Object.values(builderElements.selects).every(Boolean)
+) {
+  const builderData = {
+    persona: [
+      {
+        value: "neo_architect",
+        label: "Neo Architect",
+        summary: "You orchestrate living skyscrapers that morph with each visitor’s memories.",
+        baseProfit: 48000,
+        engagement: 5400,
+        influence: 82,
+        timeline: [
+          { time: "06:00", text: "Biofeedback sunrise calibrates neural design instincts." },
+          { time: "09:30", text: "VR atelier unveils adaptive façade concepts to VIP investors." },
+          { time: "14:00", text: "Creator council syncs to sequence citywide holo-installation." },
+        ],
+      },
+      {
+        value: "crypto_urbanist",
+        label: "Crypto Urbanist",
+        summary: "You tokenize public spaces, balancing civic acclaim with DeFi velocity.",
+        baseProfit: 42000,
+        engagement: 6100,
+        influence: 76,
+        timeline: [
+          { time: "07:15", text: "Open-ledger briefing sets today’s urban governance votes." },
+          { time: "12:00", text: "Lunchwalk sparks drop-in salons for citizen investors." },
+          { time: "21:00", text: "Nightly DAO plenary streams to 220K watchers." },
+        ],
+      },
+      {
+        value: "sonic_storyweaver",
+        label: "Sonic Storyweaver",
+        summary: "Your immersive narrative concerts fuse AI choirs with haptic street theaters.",
+        baseProfit: 39000,
+        engagement: 6800,
+        influence: 88,
+        timeline: [
+          { time: "10:00", text: "Rehearsal dome syncs neural choirs to crowd biometrics." },
+          { time: "19:30", text: "Volumetric headline show floods timelines with fan-made remixes." },
+          { time: "23:45", text: "Afterglow lounge monetizes encore NFTs and backstage meetups." },
+        ],
+      },
+      {
+        value: "bio_synth_oracle",
+        label: "Bio-Synth Oracle",
+        summary: "You design wellness rituals that blend biotech sanctuaries with AI guidance.",
+        baseProfit: 44000,
+        engagement: 5200,
+        influence: 90,
+        timeline: [
+          { time: "05:45", text: "Chromatic meditation dome calibrates personal aura algorithms." },
+          { time: "13:15", text: "One-on-one oracle sessions translate biosignals into life upgrades." },
+          { time: "20:20", text: "Moonlit ceremony streams serenity tokens to subscribers." },
+        ],
+      },
+    ],
+    district: [
+      {
+        value: "skyline_dominion",
+        label: "Skyline Dominion",
+        summary: "Panoramic penthouses hover above the city with concierge drones.",
+        profitMultiplier: 1.18,
+        engagement: 900,
+        influence: 12,
+        timeline: [
+          { time: "08:30", text: "Atrium salon hosts cross-shard investors for breakfast pitches." },
+        ],
+      },
+      {
+        value: "tidal_arcology",
+        label: "Tidal Arcology",
+        summary: "Floating eco-district powered by tidal generators and luminous reefs.",
+        profitMultiplier: 1.12,
+        engagement: 720,
+        influence: 10,
+        timeline: [
+          { time: "16:30", text: "Hydro drift garden welcomes celebrity healers for AR tours." },
+        ],
+      },
+      {
+        value: "memory_lanes",
+        label: "Memory Lanes",
+        summary: "Retro-futurist boulevards remix nostalgia with augmented reality loops.",
+        profitMultiplier: 1.09,
+        engagement: 840,
+        influence: 8,
+        timeline: [
+          { time: "18:00", text: "Pop-up story corridor captures micro-payments from tourists." },
+        ],
+      },
+      {
+        value: "quantum_bazaar",
+        label: "Quantum Bazaar",
+        summary: "Always-on market where AI traders auction limited physical-digital hybrids.",
+        profitMultiplier: 1.15,
+        engagement: 1020,
+        influence: 9,
+        timeline: [
+          { time: "11:45", text: "Flash auction triggers profit splits across district DAO." },
+        ],
+      },
+    ],
+    venture: [
+      {
+        value: "holo_fashion",
+        label: "Holographic Fashion House",
+        summary: "Launch couture that adapts to climate, context, and emotion.",
+        profitAdd: 26000,
+        engagement: 1900,
+        influence: 14,
+        timeline: [
+          { time: "15:00", text: "Runway AI iterates capsule wardrobes for high-net patrons." },
+        ],
+      },
+      {
+        value: "ar_concert",
+        label: "AR Concert Residency",
+        summary: "Weekly residencies fuse live music with AR quests and loot drops.",
+        profitAdd: 31000,
+        engagement: 2400,
+        influence: 16,
+        timeline: [
+          { time: "20:30", text: "Arena lighting syncs token burn rates with encore intensity." },
+        ],
+      },
+      {
+        value: "neuro_therapy",
+        label: "NeuroTherapy Collective",
+        summary: "Biofeedback clinics monetize serenity protocols for elite members.",
+        profitAdd: 22000,
+        engagement: 1500,
+        influence: 13,
+        timeline: [
+          { time: "17:45", text: "Premium clients unlock bespoke neuro-sculpting sessions." },
+        ],
+      },
+      {
+        value: "guild_incubator",
+        label: "Creator Guild Incubator",
+        summary: "Mentor rising creators, taking yield on every breakout franchise.",
+        profitAdd: 34000,
+        engagement: 2100,
+        influence: 18,
+        timeline: [
+          { time: "14:45", text: "Guild sprint awards micro-grants with instant staking options." },
+        ],
+      },
+    ],
+    mobility: [
+      {
+        value: "grav_lift",
+        label: "Grav-Lift Fleet",
+        summary: "Personal levitation pods whisk you across shards in minutes.",
+        profitMultiplier: 1.07,
+        engagement: 450,
+        influence: 5,
+        timeline: [
+          { time: "07:55", text: "Lev-lift hop streams skyline footage for sponsor placements." },
+        ],
+      },
+      {
+        value: "quantum_rail",
+        label: "Quantum Rail Pass",
+        summary: "High-speed portals teleport you between districts with zero latency.",
+        profitMultiplier: 1.05,
+        engagement: 520,
+        influence: 6,
+        timeline: [
+          { time: "13:45", text: "Rail portal meetup spawns spontaneous creator collabs." },
+        ],
+      },
+      {
+        value: "suborbital_jet",
+        label: "Suborbital Jet Syndicate",
+        summary: "Fractional ownership of jets that host VIP mixers mid-flight.",
+        profitMultiplier: 1.12,
+        engagement: 380,
+        influence: 9,
+        timeline: [
+          { time: "22:10", text: "Jetstream mixer closes three venture rounds before landing." },
+        ],
+      },
+      {
+        value: "ai_pods",
+        label: "AI Chauffeur Pods",
+        summary: "Emotion-aware pods manage your calendar and monetize ad slots.",
+        profitMultiplier: 1.04,
+        engagement: 560,
+        influence: 7,
+        timeline: [
+          { time: "08:05", text: "Pod analytics auto-negotiates sponsorships en route." },
+        ],
+      },
+    ],
+    relationship: [
+      {
+        value: "poly_synergy",
+        label: "Poly-Synergy Crew",
+        summary: "Collective of partners co-manage experiences and split upside.",
+        profitAdd: 8000,
+        engagement: 1200,
+        influence: 10,
+        timeline: [
+          { time: "12:30", text: "Crew sync charts daily moodboards and revenue goals." },
+        ],
+      },
+      {
+        value: "power_partner",
+        label: "Power Partner",
+        summary: "A powerhouse duo balancing intimacy with empire building.",
+        profitAdd: 6000,
+        engagement: 900,
+        influence: 12,
+        timeline: [
+          { time: "18:30", text: "Power dinner converts VIP guests into recurring investors." },
+        ],
+      },
+      {
+        value: "solo_visionary",
+        label: "Solo Visionary",
+        summary: "Forge your own legend with AI confidants and fan-led councils.",
+        profitAdd: 4000,
+        engagement: 700,
+        influence: 8,
+        timeline: [
+          { time: "23:00", text: "Late-night stream galvanises fan DAO to bankroll expansions." },
+        ],
+      },
+      {
+        value: "dao_family",
+        label: "DAO Family",
+        summary: "Chosen family DAO governs co-created ventures and care pods.",
+        profitAdd: 9500,
+        engagement: 1100,
+        influence: 14,
+        timeline: [
+          { time: "16:00", text: "Family council locks in weekly dividend distribution votes." },
+        ],
+      },
+    ],
+  };
+
+  const specialMoments = [
+    { time: "02:00", text: "Moonshot lab surprises fans with stealth beta invite." },
+    { time: "04:30", text: "Lucid dreaming session unlocks new volumetric narrative arc." },
+    { time: "11:11", text: "Angel investor pings you with instant liquidity boost." },
+    { time: "19:19", text: "Community flash-mob trends your shard across the mirrorverse." },
+    { time: "21:45", text: "Protocol airdrop rewards loyal visitors with bonus yield." },
+  ];
+
+  const state = {
+    persona: null,
+    district: null,
+    venture: null,
+    mobility: null,
+    relationship: null,
+  };
+
+  const populateSelect = (select, options) => {
+    select.innerHTML = "";
+    options.forEach((option, index) => {
+      const opt = document.createElement("option");
+      opt.value = option.value;
+      opt.textContent = option.label;
+      if (index === 0) {
+        opt.selected = true;
+      }
+      select.appendChild(opt);
+    });
+  };
+
+  const getOption = (category, value) => builderData[category].find((item) => item.value === value) ?? builderData[category][0];
+
+  Object.entries(builderElements.selects).forEach(([category, select]) => {
+    populateSelect(select, builderData[category]);
+    state[category] = getOption(category, select.value);
+    select.addEventListener("change", (event) => {
+      state[category] = getOption(category, event.target.value);
+      renderBuilder();
+    });
+  });
+
+  const minutesFromTime = (time) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
+  };
+
+  const renderBuilder = ({ jitter = false } = {}) => {
+    const components = Object.values(state);
+    if (components.some((component) => !component)) return;
+
+    const persona = state.persona;
+    const district = state.district;
+    const venture = state.venture;
+    const mobility = state.mobility;
+    const relationship = state.relationship;
+
+    const baseProfit = persona.baseProfit + venture.profitAdd + relationship.profitAdd;
+    const profitMultiplier = district.profitMultiplier * mobility.profitMultiplier;
+    const projectedProfit = Math.round(baseProfit * profitMultiplier);
+
+    const engagementScore =
+      persona.engagement +
+      venture.engagement +
+      district.engagement +
+      mobility.engagement +
+      relationship.engagement;
+
+    const influenceIndex =
+      persona.influence +
+      venture.influence +
+      district.influence +
+      mobility.influence +
+      relationship.influence;
+
+    builderElements.title.textContent = `${persona.label} · ${district.label}`;
+
+    const descriptionParts = [
+      persona.summary,
+      district.summary,
+      venture.summary,
+      mobility.summary,
+      relationship.summary,
+    ].filter(Boolean);
+    builderElements.description.textContent = descriptionParts.join(" ");
+
+    builderElements.profit.textContent = formatShort(projectedProfit, { currency: true, decimals: 2 });
+    builderElements.engagement.textContent = `${numberFormatter.format(Math.round(engagementScore))} interactions`;
+    builderElements.influence.textContent = `${Math.round(influenceIndex)}`;
+
+    const timelineEntries = [
+      ...persona.timeline,
+      ...district.timeline,
+      ...venture.timeline,
+      ...mobility.timeline,
+      ...relationship.timeline,
+    ].map((entry, index) => ({ ...entry, order: index }));
+
+    if (jitter && specialMoments.length > 0 && Math.random() > 0.25) {
+      const bonus = specialMoments[Math.floor(Math.random() * specialMoments.length)];
+      timelineEntries.push({ ...bonus, order: timelineEntries.length + Math.random() });
+    }
+
+    timelineEntries.sort((a, b) => {
+      const diff = minutesFromTime(a.time) - minutesFromTime(b.time);
+      return diff === 0 ? a.order - b.order : diff;
+    });
+
+    builderElements.timeline.innerHTML = timelineEntries
+      .map(
+        (entry) =>
+          `<li><span>${entry.time}</span>${entry.text}</li>`
+      )
+      .join("");
+  };
+
+  if (builderElements.randomise) {
+    builderElements.randomise.addEventListener("click", () => {
+      Object.entries(builderElements.selects).forEach(([category, select]) => {
+        const options = builderData[category];
+        const selected = options[Math.floor(Math.random() * options.length)];
+        select.value = selected.value;
+        state[category] = selected;
+      });
+      renderBuilder({ jitter: true });
+    });
+  }
+
+  if (builderElements.schedule) {
+    builderElements.schedule.addEventListener("click", () => {
+      builderElements.timeline.classList.add("is-refreshing");
+      renderBuilder({ jitter: true });
+      setTimeout(() => builderElements.timeline.classList.remove("is-refreshing"), 900);
+    });
+  }
+
+  renderBuilder();
+}
+
+/**
  * Three.js Forge Preview
  */
 if (forgeCanvas && window.THREE) {
