@@ -1,0 +1,32 @@
+# Metaverse Platform Dependencies
+
+# Core Framework
+flask==3.0.0
+flask-cors==4.0.0
+
+# Data Processing
+numpy==1.24.3
+pandas==2.0.3
+
+# Optional: Database Support
+# sqlalchemy==2.0.23
+# psycopg2-binary==2.9.9  # For PostgreSQL
+# pymongo==4.6.0  # For MongoDB
+
+# Optional: Real-time Communication
+# flask-socketio==5.3.5
+# python-socketio==5.10.0
+
+# Optional: Authentication
+# flask-jwt-extended==4.5.3
+# bcrypt==4.1.1
+
+# Optional: Enhanced Features
+# pillow==10.1.0  # For image processing
+# redis==5.0.1  # For caching
+# celery==5.3.4  # For background tasks
+
+# Development Tools
+pytest==7.4.3
+black==23.12.0
+flake8==6.1.0

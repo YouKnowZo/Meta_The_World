@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metaverse - Hyper-Realistic Virtual World</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #hud {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .hud-element {
+            pointer-events: all;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+        }
+
+        #stats-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+        }
+
+        #properties-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        #agent-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 320px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-label {
+            color: #aaa;
+        }
+
+        .stat-value {
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .property-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .property-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .property-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #60a5fa;
+        }
+
+        .property-detail {
+            font-size: 12px;
+            color: #ccc;
+            margin: 3px 0;
+        }
+
+        .price-tag {
+            font-size: 18px;
+            color: #fbbf24;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: #60a5fa;
+            border-bottom: 2px solid #60a5fa;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            margin: 15px 0 10px 0;
+            font-size: 16px;
+            color: #a78bfa;
+        }
+
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .commission-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        #notifications {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000;
+        }
+
+        .notification {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            margin: 10px 0;
+            animation: slideDown 0.5s ease-out;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .level-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container">
+        <canvas id="renderCanvas"></canvas>
+        
+        <div id="loading">
+            <div class="spinner"></div>
+            <div>Loading Metaverse...</div>
+        </div>
+
+        <div id="hud" style="display: none;">
+            <!-- Agent Stats Panel -->
+            <div id="agent-panel" class="hud-element">
+                <h2>🏢 Real Estate Agent Profile</h2>
+                <div class="stat-row">
+                    <span class="stat-label">Agent Name:</span>
+                    <span class="stat-value" id="agent-name">YourName</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">License Level:</span>
+                    <span class="stat-value">
+                        <span id="agent-level">1</span>
+                        <span class="level-badge">⭐ Licensed</span>
+                    </span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Commission Rate:</span>
+                    <span class="stat-value" id="commission-rate">5.0%</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Total Sales:</span>
+                    <span class="stat-value" id="total-sales">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Sales Volume:</span>
+                    <span class="stat-value" id="sales-volume">$0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Commissions Earned:</span>
+                    <span class="stat-value" id="commissions-earned">$0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Active Listings:</span>
+                    <span class="stat-value" id="active-listings">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Wallet Balance:</span>
+                    <span class="stat-value" id="wallet-balance">$10,000</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Reputation:</span>
+                    <span class="stat-value" id="reputation">100.0</span>
+                </div>
+            </div>
+
+            <!-- World Stats Panel -->
+            <div id="stats-panel" class="hud-element">
+                <h2>🌍 World Status</h2>
+                <div class="stat-row">
+                    <span class="stat-label">Time:</span>
+                    <span class="stat-value" id="world-time">12:00 PM</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Weather:</span>
+                    <span class="stat-value" id="weather">☀️ Sunny</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Market Conditions:</span>
+                    <span class="stat-value" id="market">1.00x</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Active Users:</span>
+                    <span class="stat-value" id="active-users">4</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Total Properties:</span>
+                    <span class="stat-value" id="total-properties">280</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">For Sale:</span>
+                    <span class="stat-value" id="for-sale">245</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Transactions Today:</span>
+                    <span class="stat-value" id="transactions">3</span>
+                </div>
+            </div>
+
+            <!-- Properties Panel -->
+            <div id="properties-panel" class="hud-element">
+                <h2>🏠 Featured Properties</h2>
+                <div id="property-list">
+                    <!-- Properties will be dynamically added here -->
+                </div>
+                <button class="button" onclick="refreshProperties()">🔄 Refresh Listings</button>
+            </div>
+
+            <!-- Notifications -->
+            <div id="notifications"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    
+    <script>
+        // Metaverse simulation data
+        let metaverseData = {
+            agent: {
+                name: "YourName",
+                level: 1,
+                commissionRate: 5.0,
+                totalSales: 0,
+                salesVolume: 0,
+                commissionsEarned: 0,
+                activeListings: 0,
+                walletBalance: 10000,
+                reputation: 100.0
+            },
+            world: {
+                time: "12:00 PM",
+                weather: "sunny",
+                market: 1.0,
+                activeUsers: 4,
+                totalProperties: 280,
+                forSale: 245,
+                transactions: 0
+            },
+            properties: []
+        };
+
+        // Generate realistic property data
+        function generateProperties() {
+            const propertyTypes = [
+                {type: "Residential", basePrice: 75000, size: 100},
+                {type: "Commercial", basePrice: 250000, size: 300},
+                {type: "Luxury Villa", basePrice: 500000, size: 250},
+                {type: "Beachfront", basePrice: 750000, size: 200},
+                {type: "Penthouse", basePrice: 1000000, size: 300},
+                {type: "Office Space", basePrice: 350000, size: 400},
+                {type: "Retail Store", basePrice: 200000, size: 150}
+            ];
+
+            const zones = ["Downtown", "Suburban", "Resort", "Business District", "Nature Reserve"];
+            const features = [
+                ["parking", "elevator", "security"],
+                ["pool", "gym", "concierge"],
+                ["ocean view", "private beach"],
+                ["panoramic view", "terrace", "luxury finishes"],
+                ["conference rooms", "parking"],
+                ["street facing", "storage"]
+            ];
+
+            metaverseData.properties = [];
+            for (let i = 0; i < 15; i++) {
+                const template = propertyTypes[Math.floor(Math.random() * propertyTypes.length)];
+                const zone = zones[Math.floor(Math.random() * zones.length)];
+                const featureSet = features[Math.floor(Math.random() * features.length)];
+                const priceVariation = 0.8 + Math.random() * 0.5;
+                const quality = 7 + Math.random() * 2.5;
+
+                metaverseData.properties.push({
+                    id: `prop-${i}`,
+                    type: template.type,
+                    zone: zone,
+                    price: Math.floor(template.basePrice * priceVariation),
+                    size: Math.floor(template.size * (0.8 + Math.random() * 0.4)),
+                    quality: quality.toFixed(1),
+                    features: featureSet
+                });
+            }
+        }
+
+        // Simulate a property sale
+        function simulateSale(propertyId) {
+            const property = metaverseData.properties.find(p => p.id === propertyId);
+            if (!property) return;
+
+            const commission = property.price * (metaverseData.agent.commissionRate / 100);
+            
+            // Update agent stats
+            metaverseData.agent.totalSales++;
+            metaverseData.agent.salesVolume += property.price;
+            metaverseData.agent.commissionsEarned += commission;
+            metaverseData.agent.walletBalance += commission;
+            metaverseData.agent.reputation += 1.0;
+            metaverseData.world.transactions++;
+            metaverseData.world.forSale--;
+
+            // Level up check
+            if (metaverseData.agent.totalSales >= metaverseData.agent.level * 10) {
+                metaverseData.agent.level++;
+                metaverseData.agent.commissionRate = Math.min(8.0, 5.0 + (metaverseData.agent.level * 0.5));
+                showNotification(`🎉 Level Up! You're now Level ${metaverseData.agent.level}! Commission rate increased to ${metaverseData.agent.commissionRate.toFixed(1)}%`);
+            }
+
+            // Remove sold property from list
+            metaverseData.properties = metaverseData.properties.filter(p => p.id !== propertyId);
+
+            // Show notification
+            showNotification(`💰 Sale Completed! Earned $${commission.toLocaleString()} commission on ${property.type}`);
+
+            // Update UI
+            updateUI();
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notificationsDiv = document.getElementById('notifications');
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notificationsDiv.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+
+        // Update UI with current data
+        function updateUI() {
+            // Agent stats
+            document.getElementById('agent-name').textContent = metaverseData.agent.name;
+            document.getElementById('agent-level').textContent = metaverseData.agent.level;
+            document.getElementById('commission-rate').textContent = metaverseData.agent.commissionRate.toFixed(1) + '%';
+            document.getElementById('total-sales').textContent = metaverseData.agent.totalSales;
+            document.getElementById('sales-volume').textContent = '$' + metaverseData.agent.salesVolume.toLocaleString();
+            document.getElementById('commissions-earned').textContent = '$' + metaverseData.agent.commissionsEarned.toLocaleString();
+            document.getElementById('active-listings').textContent = metaverseData.properties.length;
+            document.getElementById('wallet-balance').textContent = '$' + metaverseData.agent.walletBalance.toLocaleString();
+            document.getElementById('reputation').textContent = metaverseData.agent.reputation.toFixed(1);
+
+            // World stats
+            document.getElementById('world-time').textContent = metaverseData.world.time;
+            const weatherEmoji = {sunny: '☀️', cloudy: '☁️', rainy: '🌧️', snowy: '❄️'}[metaverseData.world.weather] || '☀️';
+            document.getElementById('weather').textContent = weatherEmoji + ' ' + metaverseData.world.weather.charAt(0).toUpperCase() + metaverseData.world.weather.slice(1);
+            document.getElementById('market').textContent = metaverseData.world.market.toFixed(2) + 'x';
+            document.getElementById('active-users').textContent = metaverseData.world.activeUsers;
+            document.getElementById('total-properties').textContent = metaverseData.world.totalProperties;
+            document.getElementById('for-sale').textContent = metaverseData.world.forSale;
+            document.getElementById('transactions').textContent = metaverseData.world.transactions;
+
+            // Properties list
+            const propertyList = document.getElementById('property-list');
+            propertyList.innerHTML = '';
+            metaverseData.properties.slice(0, 5).forEach(property => {
+                const card = document.createElement('div');
+                card.className = 'property-card';
+                card.innerHTML = `
+                    <div class="property-title">${property.type}</div>
+                    <div class="property-detail">📍 ${property.zone}</div>
+                    <div class="property-detail">📏 ${property.size}m² | ⭐ Quality: ${property.quality}/10</div>
+                    <div class="property-detail">✨ ${property.features.join(', ')}</div>
+                    <div class="price-tag">$${property.price.toLocaleString()}</div>
+                    <span class="commission-badge">💰 Your Commission: $${(property.price * metaverseData.agent.commissionRate / 100).toLocaleString()}</span>
+                `;
+                card.onclick = () => simulateSale(property.id);
+                propertyList.appendChild(card);
+            });
+        }
+
+        // Refresh properties (add new ones)
+        function refreshProperties() {
+            generateProperties();
+            updateUI();
+            showNotification('🔄 Listings refreshed! New properties available!');
+        }
+
+        // Simulate world changes
+        function simulateWorld() {
+            // Time progression
+            const hour = Math.floor(Math.random() * 24);
+            metaverseData.world.time = `${hour % 12 || 12}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')} ${hour >= 12 ? 'PM' : 'AM'}`;
+
+            // Weather changes
+            const weathers = ['sunny', 'cloudy', 'rainy', 'snowy'];
+            if (Math.random() < 0.1) {
+                metaverseData.world.weather = weathers[Math.floor(Math.random() * weathers.length)];
+            }
+
+            // Market fluctuations
+            metaverseData.world.market *= 0.98 + Math.random() * 0.04;
+            metaverseData.world.market = Math.max(0.5, Math.min(2.0, metaverseData.world.market));
+
+            // Update prices based on market
+            metaverseData.properties.forEach(prop => {
+                prop.price = Math.floor(prop.price * (0.995 + Math.random() * 0.01));
+            });
+
+            updateUI();
+        }
+
+        // 3D Scene Setup
+        const canvas = document.getElementById('renderCanvas');
+        const engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
+
+        const createScene = function() {
+            const scene = new BABYLON.Scene(engine);
+            scene.clearColor = new BABYLON.Color3(0.5, 0.7, 1.0);
+
+            // Camera
+            const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 3, 150, new BABYLON.Vector3(0, 0, 0), scene);
+            camera.attachControl(canvas, true);
+            camera.lowerRadiusLimit = 50;
+            camera.upperRadiusLimit = 300;
+
+            // Lights
+            const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0), scene);
+            light.intensity = 0.7;
+
+            const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
+            dirLight.position = new BABYLON.Vector3(20, 40, 20);
+            dirLight.intensity = 0.5;
+
+            // Ground
+            const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 200, height: 200}, scene);
+            const groundMat = new BABYLON.StandardMaterial("groundMat", scene);
+            groundMat.diffuseColor = new BABYLON.Color3(0.2, 0.6, 0.3);
+            groundMat.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+            ground.material = groundMat;
+
+            // Create city buildings
+            const zones = [
+                {name: "Downtown", center: [0, 0], color: [0.8, 0.3, 0.3], count: 15, heightRange: [20, 60]},
+                {name: "Business", center: [60, -60], color: [0.3, 0.5, 0.8], count: 12, heightRange: [15, 40]},
+                {name: "Suburban", center: [-70, 0], color: [0.7, 0.7, 0.3], count: 20, heightRange: [5, 15]},
+                {name: "Resort", center: [-60, 70], color: [0.3, 0.8, 0.7], count: 10, heightRange: [10, 25]},
+            ];
+
+            zones.forEach(zone => {
+                for (let i = 0; i < zone.count; i++) {
+                    const building = BABYLON.MeshBuilder.CreateBox(`building-${zone.name}-${i}`, {
+                        width: 5 + Math.random() * 5,
+                        height: zone.heightRange[0] + Math.random() * (zone.heightRange[1] - zone.heightRange[0]),
+                        depth: 5 + Math.random() * 5
+                    }, scene);
+
+                    building.position.x = zone.center[0] + (Math.random() - 0.5) * 30;
+                    building.position.z = zone.center[1] + (Math.random() - 0.5) * 30;
+                    building.position.y = building.scaling.y / 2;
+
+                    const buildingMat = new BABYLON.StandardMaterial(`buildingMat-${i}`, scene);
+                    buildingMat.diffuseColor = new BABYLON.Color3(...zone.color);
+                    buildingMat.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+                    building.material = buildingMat;
+
+                    // Glow effect for featured properties
+                    if (Math.random() < 0.2) {
+                        const gl = new BABYLON.GlowLayer("glow", scene);
+                        gl.addIncludedOnlyMesh(building);
+                        building.actionManager = new BABYLON.ActionManager(scene);
+                    }
+                }
+            });
+
+            // Skybox
+            const skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size: 1000.0}, scene);
+            const skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+            skyboxMaterial.backFaceCulling = false;
+            skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("https://www.babylonjs.com/assets/skybox/TropicalSunnyDay", scene);
+            skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+            skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+            skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+            skybox.material = skyboxMaterial;
+
+            return scene;
+        };
+
+        const scene = createScene();
+
+        engine.runRenderLoop(function() {
+            scene.render();
+        });
+
+        window.addEventListener('resize', function() {
+            engine.resize();
+        });
+
+        // Initialize
+        setTimeout(() => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('hud').style.display = 'block';
+            generateProperties();
+            updateUI();
+            showNotification('🌟 Welcome to the Metaverse! Your real estate empire begins now!');
+
+            // Periodic world simulation
+            setInterval(simulateWorld, 10000);
+
+            // Auto-generate new properties
+            setInterval(() => {
+                if (metaverseData.properties.length < 10) {
+                    generateProperties();
+                    updateUI();
+                }
+            }, 20000);
+        }, 2000);
+    </script>
+</body>
+</html>
