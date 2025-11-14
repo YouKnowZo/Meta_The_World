@@ -1,0 +1,29 @@
+{
+  "name": "metaworld",
+  "version": "1.0.0",
+  "description": "A hyper-realistic virtual world where you can be anything you want - featuring virtual real estate, professions, and a complete economy",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "metaverse",
+    "virtual-world",
+    "3d",
+    "real-estate",
+    "virtual-reality",
+    "economy",
+    "blockchain"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "ws": "^8.14.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
