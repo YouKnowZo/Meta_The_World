@@ -31,6 +31,21 @@ const userSchema = new mongoose.Schema({
   agentCommissionRate: { type: Number, default: 0.05 }, // 5% default
   balance: { type: Number, default: 1000 }, // Starting virtual currency
   ownedProperties: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Property' }],
+  ownedCars: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Car' }],
+  ownedPets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Pet' }],
+  inventory: [{ type: mongoose.Schema.Types.ObjectId, ref: 'InventoryItem' }],
+  currentCity: { type: mongoose.Schema.Types.ObjectId, ref: 'City' },
+  stats: {
+    hunger: { type: Number, default: 100, min: 0, max: 100 },
+    energy: { type: Number, default: 100, min: 0, max: 100 },
+    happiness: { type: Number, default: 100, min: 0, max: 100 },
+    level: { type: Number, default: 1 },
+    experience: { type: Number, default: 0 }
+  },
+  social: {
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    blocked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  },
   createdAt: { type: Date, default: Date.now }
 });
 

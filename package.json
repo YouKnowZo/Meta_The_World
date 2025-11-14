@@ -11,7 +11,9 @@
     "build": "cd client && npm run build",
     "start": "node server/index.js",
     "install:all": "npm install && cd client && npm install",
-    "seed": "node server/scripts/seed.js"
+    "seed": "node server/scripts/seed.js",
+    "seed:products": "node server/scripts/seedProducts.js",
+    "seed:cities": "node server/scripts/seedCities.js"
   },
   "keywords": ["metaverse", "vr", "ar", "nft", "real-estate", "3d"],
   "author": "",

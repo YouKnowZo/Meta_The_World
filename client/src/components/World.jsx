@@ -6,6 +6,8 @@ import Terrain from './3D/Terrain';
 import Buildings from './3D/Buildings';
 import Player from './3D/Player';
 import PropertyMarkers from './3D/PropertyMarkers';
+import CityMarkers from './3D/CityMarkers';
+import StoreMarkers from './3D/StoreMarkers';
 import { useWorldStore } from '../stores/worldStore';
 import { socket } from '../utils/socket';
 
@@ -37,6 +39,8 @@ export default function World() {
             <Buildings />
             <Player />
             <PropertyMarkers />
+            <CityMarkers />
+            <StoreMarkers />
           </Physics>
           
           <OrbitControls

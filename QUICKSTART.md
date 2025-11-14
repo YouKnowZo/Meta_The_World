@@ -41,11 +41,20 @@ This starts both:
 ## First Steps in the World
 
 1. **Create Account**: Sign up with email/password
-2. **Enter World**: You'll spawn in the 3D world
-3. **Explore**: Use WASD to move, mouse to look around
-4. **Become an Agent**: Click briefcase icon → Get Licensed
-5. **Buy Property**: Click building icon → Browse listings → Purchase
-6. **Sell Property**: Click home icon → List your properties
+2. **Seed the World** (first time only):
+   ```bash
+   npm run seed:cities    # Creates cities with stores
+   npm run seed:products  # Adds products to stores
+   npm run seed           # Adds sample properties (optional)
+   ```
+3. **Enter World**: You'll spawn in the 3D world
+4. **Explore**: Use WASD to move, mouse to look around
+5. **Shop**: Click store icon → Browse stores → Buy food, clothes, pet supplies
+6. **Adopt a Pet**: Click paw icon → Adopt → Feed and play
+7. **Buy a Car**: Click car icon → Browse models → Purchase & customize
+8. **Date**: Click heart icon → Create profile → Discover matches
+9. **Become an Agent**: Click briefcase icon → Get Licensed
+10. **Buy Property**: Click building icon → Browse listings → Purchase
 
 ## Troubleshooting
 

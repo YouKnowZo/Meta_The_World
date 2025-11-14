@@ -9,6 +9,12 @@ import userRoutes from './routes/users.js';
 import propertyRoutes from './routes/properties.js';
 import transactionRoutes from './routes/transactions.js';
 import agentRoutes from './routes/agents.js';
+import cityRoutes from './routes/cities.js';
+import carRoutes from './routes/cars.js';
+import storeRoutes from './routes/stores.js';
+import datingRoutes from './routes/dating.js';
+import petRoutes from './routes/pets.js';
+import inventoryRoutes from './routes/inventory.js';
 
 dotenv.config();
 
@@ -36,6 +42,12 @@ app.use('/api/users', userRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/agents', agentRoutes);
+app.use('/api/cities', cityRoutes);
+app.use('/api/cars', carRoutes);
+app.use('/api/stores', storeRoutes);
+app.use('/api/dating', datingRoutes);
+app.use('/api/pets', petRoutes);
+app.use('/api/inventory', inventoryRoutes);
 
 // Socket.io for real-time world updates
 io.on('connection', (socket) => {
