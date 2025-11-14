@@ -1,0 +1,285 @@
+.agent-dashboard-container {
+  width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding-bottom: 40px;
+}
+
+.agent-dashboard-header {
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(-5px);
+}
+
+.agent-dashboard-header h1 {
+  color: white;
+  font-size: 32px;
+  margin: 0 0 5px 0;
+}
+
+.agent-dashboard-header p {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  font-size: 14px;
+}
+
+.agent-dashboard-content {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.agent-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.agent-stat-card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+}
+
+.agent-stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.agent-stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.agent-stat-icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+.agent-stat-info {
+  flex: 1;
+}
+
+.agent-stat-label {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.agent-stat-value {
+  color: #333;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.agent-info-box {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.agent-info-box h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.agent-info-box p {
+  color: #666;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+.agent-transactions-section,
+.agent-listings-section {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.agent-transactions-section h2,
+.agent-listings-section h2 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.agent-transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.agent-transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 15px;
+  transition: all 0.3s;
+}
+
+.agent-transaction-item:hover {
+  background: #eeeeee;
+  transform: translateX(5px);
+}
+
+.agent-transaction-main {
+  flex: 1;
+}
+
+.agent-transaction-type {
+  margin-bottom: 8px;
+}
+
+.agent-type-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.agent-type-badge.commission {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.agent-transaction-property {
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.agent-transaction-details {
+  color: #666;
+  font-size: 14px;
+}
+
+.agent-transaction-amount {
+  text-align: right;
+}
+
+.agent-amount {
+  font-size: 24px;
+  font-weight: 700;
+  display: block;
+}
+
+.agent-amount.commission {
+  color: #f59e0b;
+}
+
+.transaction-total {
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+}
+
+.agent-listings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.agent-listing-card {
+  background: #f5f5f5;
+  border-radius: 15px;
+  padding: 20px;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.agent-listing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: #667eea;
+}
+
+.agent-listing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.agent-listing-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.agent-status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.agent-status-badge.listed {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.agent-listing-description {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 15px;
+  min-height: 40px;
+}
+
+.agent-listing-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.agent-listing-detail {
+  color: #333;
+  font-size: 14px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-size: 18px;
+}
