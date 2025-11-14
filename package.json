@@ -1,0 +1,20 @@
+{
+  "name": "meta-the-world",
+  "version": "1.0.0",
+  "description": "A hyper-realistic virtual world metaverse with virtual real estate and agent system",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && nodemon index.js",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "cd server && node index.js",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": ["metaverse", "virtual-reality", "real-estate", "3d", "webgl"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
