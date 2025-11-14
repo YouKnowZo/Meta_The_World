@@ -61,6 +61,21 @@ A hyper-realistic metaverse platform where you can be anything you want to be - 
 - **Stats System**: Hunger, energy, happiness, and experience tracking
 - **Modern UI/UX**: Beautiful, intuitive interface
 
+## 💰 Cryptocurrency & Starting Balance
+
+### Automatic Virtual Currency
+- **New users automatically receive 10,000 virtual currency** on registration
+- No wallet needed - instant access to the economy
+- Use for: Food, clothes, pets, cars, properties
+
+### Cryptocurrency Integration (Optional)
+- **Supported Chains**: Polygon (recommended), Ethereum, BSC, Arbitrum, Optimism
+- **Connect Wallet**: MetaMask integration for real crypto
+- **Free Faucet**: Claim 10 MATIC (Polygon) or 0.01 ETH (Ethereum) + 5,000 bonus virtual currency
+- **One claim per wallet** - Get your starting balance instantly!
+
+See [CRYPTO_SETUP.md](./CRYPTO_SETUP.md) for detailed setup instructions.
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -246,6 +261,12 @@ meta-the-world/
 ### Inventory
 - `GET /api/inventory/my-inventory` - Get user's inventory
 - `PUT /api/inventory/equip/:itemId` - Equip/unequip item
+
+### Cryptocurrency
+- `POST /api/crypto/connect` - Connect MetaMask wallet
+- `GET /api/crypto/wallet` - Get wallet info and balances
+- `POST /api/crypto/faucet/claim` - Claim free starting balance
+- `GET /api/crypto/networks` - Get supported blockchain networks
 
 ## 🌐 Real-Time Events (Socket.io)
 

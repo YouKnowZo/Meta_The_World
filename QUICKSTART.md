@@ -41,7 +41,11 @@ This starts both:
 ## First Steps in the World
 
 1. **Create Account**: Sign up with email/password
-2. **Seed the World** (first time only):
+   - ✅ Automatically receive **10,000 virtual currency**!
+2. **Connect Wallet** (Optional): Click wallet icon → Connect MetaMask → Claim faucet
+   - ✅ Get **10 MATIC** (Polygon) or **0.01 ETH** (Ethereum)
+   - ✅ Plus **5,000 bonus virtual currency**!
+3. **Seed the World** (first time only):
    ```bash
    npm run seed:cities    # Creates cities with stores
    npm run seed:products  # Adds products to stores

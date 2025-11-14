@@ -15,6 +15,7 @@ import storeRoutes from './routes/stores.js';
 import datingRoutes from './routes/dating.js';
 import petRoutes from './routes/pets.js';
 import inventoryRoutes from './routes/inventory.js';
+import cryptoRoutes from './routes/crypto.js';
 
 dotenv.config();
 
@@ -48,6 +49,7 @@ app.use('/api/stores', storeRoutes);
 app.use('/api/dating', datingRoutes);
 app.use('/api/pets', petRoutes);
 app.use('/api/inventory', inventoryRoutes);
+app.use('/api/crypto', cryptoRoutes);
 
 // Socket.io for real-time world updates
 io.on('connection', (socket) => {

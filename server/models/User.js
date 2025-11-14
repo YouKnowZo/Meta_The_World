@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
   isRealEstateAgent: { type: Boolean, default: false },
   agentLicense: String,
   agentCommissionRate: { type: Number, default: 0.05 }, // 5% default
-  balance: { type: Number, default: 1000 }, // Starting virtual currency
+  balance: { type: Number, default: 10000 }, // Starting virtual currency (10,000 for new users)
   ownedProperties: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Property' }],
   ownedCars: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Car' }],
   ownedPets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Pet' }],

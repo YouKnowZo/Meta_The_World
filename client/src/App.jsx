@@ -4,6 +4,7 @@ import { useAuthStore } from './stores/authStore';
 import Login from './components/Login';
 import World from './components/World';
 import HUD from './components/HUD';
+import WalletConnect from './components/WalletConnect';
 import './App.css';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <HUD />
+      <WalletConnect />
     </BrowserRouter>
   );
 }
