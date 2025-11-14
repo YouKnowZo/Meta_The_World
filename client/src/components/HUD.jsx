@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useWorldStore } from '../stores/worldStore';
-import { Building2, Home, Briefcase, Settings, X, Heart, Car, Store, PawPrint } from 'lucide-react';
+import { Building2, Home, Briefcase, Settings, X, Heart, Car, Store, PawPrint, MessageCircle, Users } from 'lucide-react';
 import RealEstatePanel from './panels/RealEstatePanel';
 import PropertyPanel from './panels/PropertyPanel';
 import AgentPanel from './panels/AgentPanel';
@@ -8,6 +8,9 @@ import DatingPanel from './panels/DatingPanel';
 import CarPanel from './panels/CarPanel';
 import StorePanel from './panels/StorePanel';
 import PetPanel from './panels/PetPanel';
+import ChatPanel from './panels/ChatPanel';
+import FriendsPanel from './panels/FriendsPanel';
+import NotificationBell from './NotificationBell';
 
 export default function HUD() {
   const [activePanel, setActivePanel] = useState(null);
@@ -20,7 +23,9 @@ export default function HUD() {
     dating: <DatingPanel onClose={() => setActivePanel(null)} />,
     car: <CarPanel onClose={() => setActivePanel(null)} />,
     store: <StorePanel onClose={() => setActivePanel(null)} />,
-    pet: <PetPanel onClose={() => setActivePanel(null)} />
+    pet: <PetPanel onClose={() => setActivePanel(null)} />,
+    chat: <ChatPanel onClose={() => setActivePanel(null)} />,
+    friends: <FriendsPanel onClose={() => setActivePanel(null)} />
   };
 
   return (
@@ -109,7 +114,33 @@ export default function HUD() {
         >
           <PawPrint className="w-6 h-6" />
         </button>
+        
+        <button
+          onClick={() => setActivePanel(activePanel === 'chat' ? null : 'chat')}
+          className={`p-4 rounded-lg backdrop-blur-md border-2 transition-all ${
+            activePanel === 'chat'
+              ? 'bg-blue-600/80 border-blue-400 text-white'
+              : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+          }`}
+          title="Chat"
+        >
+          <MessageCircle className="w-6 h-6" />
+        </button>
+        
+        <button
+          onClick={() => setActivePanel(activePanel === 'friends' ? null : 'friends')}
+          className={`p-4 rounded-lg backdrop-blur-md border-2 transition-all ${
+            activePanel === 'friends'
+              ? 'bg-green-600/80 border-green-400 text-white'
+              : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+          }`}
+          title="Friends"
+        >
+          <Users className="w-6 h-6" />
+        </button>
       </div>
+
+      <NotificationBell />
 
       {activePanel && (
         <div className="fixed inset-0 z-40 flex items-center justify-center pointer-events-none">

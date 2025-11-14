@@ -13,7 +13,10 @@
     "install:all": "npm install && cd client && npm install",
     "seed": "node server/scripts/seed.js",
     "seed:products": "node server/scripts/seedProducts.js",
-    "seed:cities": "node server/scripts/seedCities.js"
+    "seed:cities": "node server/scripts/seedCities.js",
+    "seed:quests": "node server/scripts/seedQuests.js",
+    "seed:achievements": "node server/scripts/seedAchievements.js",
+    "seed:all": "npm run seed:cities && npm run seed:products && npm run seed:quests && npm run seed:achievements"
   },
   "keywords": ["metaverse", "vr", "ar", "nft", "real-estate", "3d"],
   "author": "",

@@ -44,8 +44,41 @@ const userSchema = new mongoose.Schema({
   },
   social: {
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    blocked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    blocked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    groups: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Group' }]
   },
+  settings: {
+    graphics: {
+      quality: { type: String, enum: ['low', 'medium', 'high', 'ultra'], default: 'medium' },
+      shadows: { type: Boolean, default: true },
+      antialiasing: { type: Boolean, default: true }
+    },
+    audio: {
+      masterVolume: { type: Number, default: 100, min: 0, max: 100 },
+      musicVolume: { type: Number, default: 70, min: 0, max: 100 },
+      sfxVolume: { type: Number, default: 100, min: 0, max: 100 },
+      voiceVolume: { type: Number, default: 100, min: 0, max: 100 }
+    },
+    controls: {
+      mouseSensitivity: { type: Number, default: 1.0 },
+      invertY: { type: Boolean, default: false }
+    },
+    privacy: {
+      showOnlineStatus: { type: Boolean, default: true },
+      allowFriendRequests: { type: Boolean, default: true },
+      allowMessages: { type: Boolean, default: true }
+    },
+    notifications: {
+      enabled: { type: Boolean, default: true },
+      friendRequests: { type: Boolean, default: true },
+      messages: { type: Boolean, default: true },
+      transactions: { type: Boolean, default: true },
+      quests: { type: Boolean, default: true }
+    }
+  },
+  tutorialCompleted: { type: Boolean, default: false },
+  lastSeen: { type: Date, default: Date.now },
+  isOnline: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });
 
