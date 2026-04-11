@@ -39,7 +39,7 @@ export const PremiumUI: React.FC<PremiumUIProps> = ({ cryptoData }) => {
             id: Math.floor(Math.random() * 1000),
             price: Math.random() * 50 + 5,
             buyer: `0x${Math.random().toString(16).substr(2, 4)}...${Math.random().toString(16).substr(2, 4)}`,
-            rarity: ['common', 'rare', 'epic', 'legendary'][Math.floor(Math.random() * 4)] as any
+            rarity: ['common', 'rare', 'epic', 'legendary'][Math.floor(Math.random() * 4)] as 'common' | 'rare' | 'epic' | 'legendary'
           },
           ...prev.slice(0, 4)
         ])
@@ -137,7 +137,7 @@ export const PremiumUI: React.FC<PremiumUIProps> = ({ cryptoData }) => {
           <motion.button
             key={item.id}
             className={`nav-btn ${activePanel === item.id ? 'active' : ''}`}
-            onClick={() => setActivePanel(item.id as any)}
+            onClick={() => setActivePanel(item.id as 'marketplace' | 'portfolio' | 'leaderboard')}
             whileHover={{ scale: 1.1, x: 10 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -149,197 +149,188 @@ export const PremiumUI: React.FC<PremiumUIProps> = ({ cryptoData }) => {
 
       {/* Main Panel */}
       <AnimatePresence mode="wait">
-        {activePanel === 'marketplace' && (
-          <motion.div
-            className="main-panel marketplace-panel"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="panel-header">
-              <h2>🏪 Land Marketplace</h2>
-              <div className="filter-tabs">
-                {['all', 'residential', 'commercial', 'industrial', 'park', 'beach', 'mountain'].map((filter) => (
-                  <button
-                    key={filter}
-                    className={`filter-tab ${landFilter === filter ? 'active' : ''}`}
-                    onClick={() => setLandFilter(filter as 'all' | 'residential' | 'commercial' | 'industrial' | 'park' | 'beach' | 'mountain')}
+        <motion.div
+          key={activePanel}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -50 }}
+          transition={{ duration: 0.3 }}
+          className="main-panel-wrapper"
+        >
+          {activePanel === 'marketplace' && (
+            <div className="marketplace-panel">
+              <div className="panel-header">
+                <h2>🏪 Land Marketplace</h2>
+                <div className="filter-tabs">
+                  {['all', 'residential', 'commercial', 'industrial', 'park', 'beach', 'mountain'].map((filter) => (
+                    <button
+                      key={filter}
+                      className={`filter-tab ${landFilter === filter ? 'active' : ''}`}
+                      onClick={() => setLandFilter(filter as 'all' | 'residential' | 'commercial' | 'industrial' | 'park' | 'beach' | 'mountain')}
+                    >
+                      {filter.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="marketplace-grid">
+                {lands
+                  .filter(land => landFilter === 'all' || land.type === landFilter)
+                  .slice(0, 6)
+                  .map((land) => (
+                  <motion.div
+                    key={land.id}
+                    className={`land-card ${land.owner ? 'owned' : 'available'}`}
+                    whileHover={{ y: -5, boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}
+                    onClick={() => !land.owner && handlePurchase()}
                   >
-                    {filter.toUpperCase()}
-                  </button>
+                    <div className="card-header">
+                      <div className="land-id">#{land.id}</div>
+                      <div 
+                        className="rarity-badge" 
+                        style={{ backgroundColor: getRarityColor(land.type) }}
+                      >
+                        {land.type.toUpperCase()}
+                      </div>
+                    </div>
+                    
+                    <div className="land-preview">
+                      <div className="land-visualization"></div>
+                      {land.owner && <div className="sold-overlay">SOLD</div>}
+                    </div>
+                    
+                    <div className="card-footer">
+                      <div className="price-section">
+                        <span className="price">{land.price} ETH</span>
+                        <span className="usd-price">${(land.price * cryptoData.ethPrice).toFixed(0)}</span>
+                      </div>
+                      {!land.owner && (
+                        <button className="buy-btn">
+                          ⚡ BUY NOW
+                        </button>
+                      )}
+                    </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
 
-            <div className="marketplace-grid">
-              {lands
-                .filter(land => landFilter === 'all' || land.type === landFilter)
-                .slice(0, 6)
-                .map((land) => (
-                <motion.div
-                  key={land.id}
-                  className={`land-card ${land.owner ? 'owned' : 'available'}`}
-                  whileHover={{ y: -5, boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}
-                  onClick={() => !land.owner && handlePurchase()}
-                >
-                  <div className="card-header">
-                    <div className="land-id">#{land.id}</div>
-                    <div 
-                      className="rarity-badge" 
-                      style={{ backgroundColor: getRarityColor(land.type) }}
+              <div className="recent-activity">
+                <h3>🔥 Recent Sales</h3>
+                <div className="activity-list">
+                  {recentSales.map((sale, index) => (
+                    <motion.div
+                      key={sale.id}
+                      className="activity-item"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
                     >
-                      {land.type.toUpperCase()}
-                    </div>
-                  </div>
-                  
-                  <div className="land-preview">
-                    <div className="land-visualization"></div>
-                    {land.owner && <div className="sold-overlay">SOLD</div>}
-                  </div>
-                  
-                  <div className="card-footer">
-                    <div className="price-section">
-                      <span className="price">{land.price} ETH</span>
-                      <span className="usd-price">${(land.price * cryptoData.ethPrice).toFixed(0)}</span>
-                    </div>
-                    {!land.owner && (
-                      <button className="buy-btn">
-                        ⚡ BUY NOW
-                      </button>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
+                      <div className="sale-info">
+                        <span className="land-id">Land #{sale.id}</span>
+                        <span className="buyer">{sale.buyer}</span>
+                      </div>
+                      <div className="sale-price">{sale.price.toFixed(2)} ETH</div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </div>
+          )}
 
-            <div className="recent-activity">
-              <h3>🔥 Recent Sales</h3>
-              <div className="activity-list">
-                {recentSales.map((sale, index) => (
+          {activePanel === 'portfolio' && (
+            <div className="portfolio-panel">
+              <div className="panel-header">
+                <h2>💼 Your Portfolio</h2>
+              </div>
+
+              <div className="portfolio-stats">
+                <div className="stat-card">
+                  <div className="stat-icon">🏠</div>
+                  <div className="stat-content">
+                    <div className="stat-value">{ownedLands.length}</div>
+                    <div className="stat-label">Lands Owned</div>
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-icon">💰</div>
+                  <div className="stat-content">
+                    <div className="stat-value">{totalValue.toFixed(2)} ETH</div>
+                    <div className="stat-label">Total Value</div>
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-icon">📈</div>
+                  <div className="stat-content">
+                    <div className={`stat-value ${profitLoss >= 0 ? 'positive' : 'negative'}`}>
+                      {profitLoss >= 0 ? '+' : ''}{profitLoss.toFixed(2)} ETH
+                    </div>
+                    <div className="stat-label">P&L</div>
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-icon">⭐</div>
+                  <div className="stat-content">
+                    <div className="stat-value">{currentUser?.reputation || 0}</div>
+                    <div className="stat-label">Reputation</div>
+                  </div>
+                </div>
+              </div>
+
+              {ownedLands.length > 0 && (
+                <div className="owned-lands">
+                  <h3>Your Lands</h3>
+                  <div className="lands-grid">
+                    {ownedLands.map((land) => (
+                      <div key={land.id} className="owned-land-card">
+                        <div className="land-image"></div>
+                        <div className="land-details">
+                          <div className="land-title">Land #{land.id}</div>
+                          <div className="land-value">{land.price} ETH</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activePanel === 'leaderboard' && (
+            <div className="leaderboard-panel">
+              <div className="panel-header">
+                <h2>🏆 Leaderboard</h2>
+              </div>
+
+              <div className="leaderboard-list">
+                {[
+                  { rank: 1, address: '0x742d...35Cc', lands: 47, value: 892.5, vip: 7 },
+                  { rank: 2, address: '0x8b5a...29Df', lands: 35, value: 674.2, vip: 6 },
+                  { rank: 3, address: '0x9c6e...48Aa', lands: 28, value: 523.8, vip: 5 },
+                  { rank: 4, address: currentUser?.address || '0x1234...5678', lands: ownedLands.length, value: totalValue, vip: currentUser?.vipLevel || 1 }
+                ].map((user, index) => (
                   <motion.div
-                    key={sale.id}
-                    className="activity-item"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    key={user.address}
+                    className={`leaderboard-item ${user.address === currentUser?.address ? 'current-user' : ''}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <div className="sale-info">
-                      <span className="land-id">Land #{sale.id}</span>
-                      <span className="buyer">{sale.buyer}</span>
+                    <div className="rank-badge">#{user.rank}</div>
+                    <div className="user-info">
+                      <div className="user-address">{user.address}</div>
+                      <div className="vip-badge">VIP {user.vip}</div>
                     </div>
-                    <div className="sale-price">{sale.price.toFixed(2)} ETH</div>
+                    <div className="user-stats">
+                      <div className="stat">{user.lands} lands</div>
+                      <div className="stat">{user.value.toFixed(1)} ETH</div>
+                    </div>
                   </motion.div>
                 ))}
               </div>
             </div>
-          </motion.div>
-        )}
-
-        {activePanel === 'portfolio' && (
-          <motion.div
-            className="main-panel portfolio-panel"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="panel-header">
-              <h2>💼 Your Portfolio</h2>
-            </div>
-
-            <div className="portfolio-stats">
-              <div className="stat-card">
-                <div className="stat-icon">🏠</div>
-                <div className="stat-content">
-                  <div className="stat-value">{ownedLands.length}</div>
-                  <div className="stat-label">Lands Owned</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon">💰</div>
-                <div className="stat-content">
-                  <div className="stat-value">{totalValue.toFixed(2)} ETH</div>
-                  <div className="stat-label">Total Value</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon">📈</div>
-                <div className="stat-content">
-                  <div className={`stat-value ${profitLoss >= 0 ? 'positive' : 'negative'}`}>
-                    {profitLoss >= 0 ? '+' : ''}{profitLoss.toFixed(2)} ETH
-                  </div>
-                  <div className="stat-label">P&L</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon">⭐</div>
-                <div className="stat-content">
-                  <div className="stat-value">{currentUser?.reputation || 0}</div>
-                  <div className="stat-label">Reputation</div>
-                </div>
-              </div>
-            </div>
-
-            {ownedLands.length > 0 && (
-              <div className="owned-lands">
-                <h3>Your Lands</h3>
-                <div className="lands-grid">
-                  {ownedLands.map((land) => (
-                    <div key={land.id} className="owned-land-card">
-                      <div className="land-image"></div>
-                      <div className="land-details">
-                        <div className="land-title">Land #{land.id}</div>
-                        <div className="land-value">{land.price} ETH</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </motion.div>
-        )}
-
-        {activePanel === 'leaderboard' && (
-          <motion.div
-            className="main-panel leaderboard-panel"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="panel-header">
-              <h2>🏆 Leaderboard</h2>
-            </div>
-
-            <div className="leaderboard-list">
-              {[
-                { rank: 1, address: '0x742d...35Cc', lands: 47, value: 892.5, vip: 7 },
-                { rank: 2, address: '0x8b5a...29Df', lands: 35, value: 674.2, vip: 6 },
-                { rank: 3, address: '0x9c6e...48Aa', lands: 28, value: 523.8, vip: 5 },
-                { rank: 4, address: currentUser?.address || '0x1234...5678', lands: ownedLands.length, value: totalValue, vip: currentUser?.vipLevel || 1 }
-              ].map((user, index) => (
-                <motion.div
-                  key={user.address}
-                  className={`leaderboard-item ${user.address === currentUser?.address ? 'current-user' : ''}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <div className="rank-badge">#{user.rank}</div>
-                  <div className="user-info">
-                    <div className="user-address">{user.address}</div>
-                    <div className="vip-badge">VIP {user.vip}</div>
-                  </div>
-                  <div className="user-stats">
-                    <div className="stat">{user.lands} lands</div>
-                    <div className="stat">{user.value.toFixed(1)} ETH</div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        )}
+          )}
+        </motion.div>
       </AnimatePresence>
 
       {/* Selected Land Panel */}

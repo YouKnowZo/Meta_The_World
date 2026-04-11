@@ -18,7 +18,10 @@ interface SlotResult {
   payout: number;
 }
 
+import { PokerHub } from './PokerHub';
+
 export const CasinoHub: React.FC<CasinoHubProps> = ({ isVisible }) => {
+  const [activeGame, setActiveGame] = useState<'lobby' | 'poker'>('lobby');
   const [jackpot, setJackpot] = useState(145782.34);
   const [gameResults, setGameResults] = useState<GameResult[]>([]);
   const [slotResult, setSlotResult] = useState<SlotResult | null>(null);
@@ -144,7 +147,28 @@ export const CasinoHub: React.FC<CasinoHubProps> = ({ isVisible }) => {
     >
       <div className="casino-header">
         <div className="casino-title">🎰 METAVERSE CASINO</div>
+        {activeGame !== 'lobby' && (
+          <button 
+            className="back-btn glass-panel"
+            onClick={() => setActiveGame('lobby')}
+            style={{ 
+              padding: '0.5rem 1rem', 
+              color: 'var(--neon-cyan)', 
+              cursor: 'pointer',
+              fontSize: '0.8rem'
+            }}
+          >
+            ← BACK TO LOBBY
+          </button>
+        )}
       </div>
+
+      {activeGame === 'poker' ? (
+        <div style={{ padding: '1rem 0' }}>
+          <PokerHub />
+        </div>
+      ) : (
+        <>
 
       <div className="jackpot-display">
         <div>💰 Progressive Jackpot</div>
@@ -242,12 +266,14 @@ export const CasinoHub: React.FC<CasinoHubProps> = ({ isVisible }) => {
           <div className="game-status">Live betting</div>
         </div>
         
-        <div className="casino-game">
+        <div className="casino-game" onClick={() => setActiveGame('poker')}>
           <div className="game-icon">🃏</div>
           <div className="game-name">Poker</div>
-          <div className="game-status">Coming soon</div>
+          <div className="game-status">Play now</div>
         </div>
       </div>
+    </>
+  )}
 
       {/* Recent Results */}
       <div className="recent-results">

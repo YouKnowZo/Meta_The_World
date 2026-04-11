@@ -8,11 +8,13 @@ import {
   Loader
 } from '@react-three/drei'
 import { EffectComposer, Bloom, ToneMapping } from '@react-three/postprocessing'
-import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
 import { useGameStore } from './store'
 import { LandPlot } from './components/LandPlot'
 import { Terrain } from './components/Terrain'
+import ModelLoader from './components/ModelLoader'
+import { PlayerController } from './components/PlayerController'
+import { WorldProvider } from './game/WorldState'
 import { TopNav } from './components/TopNav'
 import { ScrollProgress } from './components/ScrollProgress' 
 import { 
@@ -32,9 +34,11 @@ import { EarningHub } from './components/EarningHub'
 import { VirtualLife } from './components/VirtualLife'
 import { CustomizationHub } from './components/CustomizationHub'
 import { PremiumUI } from './components/PremiumUI'
+import PremiumMetaverseLoader from './components/PremiumMetaverseLoader'
 import './App.css'
 import './components/ScrollingApp.css'
 import './components/ScrollProgress.css'
+import { useWallet } from './hooks/useWallet'
 
 // Ultra-Realistic Metaverse Lighting
 function Lighting() {
@@ -111,15 +115,24 @@ function Lighting() {
 function MetaverseScene() {
   const { lands } = useGameStore()
 
+  const terrainSize = 400
+
+  // Compute a camera position scaled to terrain size so the scene frames well
+  const cameraPos: [number, number, number] = [terrainSize * 0.12, terrainSize * 0.12, terrainSize * 0.18]
+
   return (
     <div className="metaverse-canvas">
       <Canvas
         shadows
-        camera={{ position: [50, 50, 50], fov: 60 }}
+        dpr={[1, 2]}
+        camera={{ position: cameraPos, fov: 55 }}
+        style={{ width: '100%', height: '100%' }}
         gl={{ 
           antialias: true, 
           powerPreference: "high-performance",
-          alpha: false
+          alpha: false,
+          stencil: false,
+          depth: true
         }}
       >
         <Suspense fallback={null}>
@@ -129,7 +142,7 @@ function MetaverseScene() {
             background={false}
             backgroundBlurriness={0.3}
             backgroundIntensity={0.8}
-            environmentIntensity={1.2}
+            environmentIntensity={1.0}
           />
           
           {/* Photorealistic Atmospheric Sky */}
@@ -146,13 +159,14 @@ function MetaverseScene() {
           
           {/* Ultra-Dense Star Field */}
           <Stars 
+            // reduced star count for performance while keeping density
             radius={800} 
             depth={120} 
-            count={50000} 
-            factor={12} 
-            saturation={0.1} 
+            count={8000} 
+            factor={8} 
+            saturation={0.08} 
             fade 
-            speed={0.8}
+            speed={0.6}
           />
 
           {/* Volumetric Atmospheric Fog */}
@@ -162,12 +176,17 @@ function MetaverseScene() {
           <Lighting />
 
           {/* Cyber Grid Floor */}
-          <Terrain size={400} segments={200} />
+          {/* Terrain scaled to the same size used to compute camera framing */}
+          <Terrain size={terrainSize} segments={200} />
 
           {/* Land Plots with Glow */}
           {lands.map((land) => (
             <LandPlot key={land.id} land={land} />
           ))}
+
+          {/* Example model and player controller inside the scene */}
+          <ModelLoader src="/models/astronaut.glb" scale={0.6} />
+          <PlayerController />
 
           {/* Camera Controls */}
           <OrbitControls 
@@ -175,19 +194,21 @@ function MetaverseScene() {
             enableZoom={true}
             enableRotate={true}
             minDistance={5}
-            maxDistance={200}
+            // scale max distance relative to terrain so zoom feels natural
+            maxDistance={terrainSize * 0.9}
             maxPolarAngle={Math.PI / 2}
             autoRotate={false}
             autoRotateSpeed={0.5}
+            makeDefault
           />
 
-          {/* Post Processing Pipeline */}
-          <EffectComposer multisampling={8}>
+          {/* Post Processing Pipeline - Optimized for performance */}
+          <EffectComposer multisampling={2}>
             <Bloom 
-              intensity={0.8}
+              intensity={0.6}
               luminanceThreshold={0.7}
               luminanceSmoothing={0.8}
-              height={400}
+              height={300}
               kernelSize={3}
               mipmapBlur={true}
             />
@@ -217,24 +238,14 @@ interface User {
 function HeroContent() {
   const [currentUser, setCurrentUser] = useState<User | null>(null)
   const [walletConnecting, setWalletConnecting] = useState(false)
+  const wallet = useWallet()
 
   const connectWallet = async () => {
     setWalletConnecting(true)
     try {
-      if (typeof window.ethereum === 'undefined') {
-        alert('🚀 MetaMask is required to enter the Metaverse!')
-        window.open('https://metamask.io/download/', '_blank')
-        return
-      }
-
-      const provider = new ethers.BrowserProvider(window.ethereum)
-      const accounts = await provider.send("eth_requestAccounts", [])
-      
-      if (accounts && accounts.length > 0) {
-        setCurrentUser({
-          address: accounts[0],
-          balance: Math.floor(Math.random() * 10000)
-        })
+      const result = await wallet.connectAndSign()
+      if (result?.address) {
+        setCurrentUser({ address: result.address, balance: Math.floor(Math.random() * 10000) })
       }
     } catch (error) {
       console.error('Failed to connect wallet:', error)
@@ -338,8 +349,24 @@ function App() {
     generateWorld()
   }, [generateWorld])
 
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 40, scale: 0.95 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { 
+        duration: 0.8, 
+        ease: [0.22, 1, 0.36, 1], // Custom cubic-bezier for "premium" feel
+        staggerChildren: 0.2
+      } 
+    }
+  }
+
   return (
-    <div className="app-container">
+    <WorldProvider>
+      <PremiumMetaverseLoader />
+      <div className="app-container">
       {/* Top Navigation */}
       <TopNav 
         currentSection={currentSection}
@@ -350,29 +377,44 @@ function App() {
       <ScrollProgress sections={sections} />
 
       {/* Hero Section */}
-      <HeroSection>
+      <HeroSection 
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
         <HeroContent />
       </HeroSection>
 
       {/* Metaverse Section - 3D Scene */}
-      <MetaverseSection>
-        <div className="section-header">
+      <MetaverseSection
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div className="section-header" variants={sectionVariants}>
           <h2 className="section-title">Experience the Metaverse</h2>
           <p className="section-subtitle">
             Immerse yourself in our ultra-realistic 3D world
           </p>
-        </div>
+        </motion.div>
         <MetaverseScene />
       </MetaverseSection>
 
       {/* Land NFTs Section */}
-      <LandSection>
-        <div className="section-header">
+      <LandSection
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div className="section-header" variants={sectionVariants}>
           <h2 className="section-title">Own Virtual Land</h2>
           <p className="section-subtitle">
             Buy, sell, and develop your digital real estate
           </p>
-        </div>
+        </motion.div>
         <PremiumUI cryptoData={{
           ethPrice: 3247.82,
           landsSold: 847,
@@ -382,63 +424,89 @@ function App() {
       </LandSection>
 
       {/* Crypto Hub Section */}
-      <CryptoSection>
-        <div className="section-header">
+      <CryptoSection
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div className="section-header" variants={sectionVariants}>
           <h2 className="section-title">Crypto Trading Hub</h2>
           <p className="section-subtitle">
             Trade, stake, and earn with cryptocurrency
           </p>
-        </div>
+        </motion.div>
         <CryptoHub isVisible={true} onClose={() => {}} />
       </CryptoSection>
 
       {/* Casino Section */}
-      <CasinoSection>
-        <div className="section-header">
+      <CasinoSection
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div className="section-header" variants={sectionVariants}>
           <h2 className="section-title">Virtual Casino</h2>
           <p className="section-subtitle">
             Play games and win real crypto rewards
           </p>
-        </div>
+        </motion.div>
         <CasinoHub isVisible={true} />
       </CasinoSection>
 
       {/* Earning Section */}
-      <EarningSection>
-        <div className="section-header">
+      <EarningSection
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div className="section-header" variants={sectionVariants}>
           <h2 className="section-title">Earn Rewards</h2>
           <p className="section-subtitle">
             Multiple ways to earn in the metaverse
           </p>
-        </div>
+        </motion.div>
         <EarningHub isVisible={true} />
       </EarningSection>
 
       {/* Social Section */}
-      <SocialSection>
-        <div className="section-header">
+      <SocialSection
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div className="section-header" variants={sectionVariants}>
           <h2 className="section-title">Social Universe</h2>
           <p className="section-subtitle">
             Connect, chat, and socialize with others
           </p>
-        </div>
+        </motion.div>
         <VirtualLife isVisible={true} />
       </SocialSection>
 
       {/* Customize Section */}
-      <CustomizeSection>
-        <div className="section-header">
+      <CustomizeSection
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div className="section-header" variants={sectionVariants}>
           <h2 className="section-title">Customize Everything</h2>
           <p className="section-subtitle">
             Personalize your avatar, vehicles, and properties
           </p>
-        </div>
+        </motion.div>
         <CustomizationHub />
       </CustomizeSection>
 
       {/* Loading Screen */}
       <Suspense fallback={<Loader />} />
-    </div>
+      </div>
+    </WorldProvider>
   )
 }
 

@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion'
+import type { HTMLMotionProps, Variants } from 'framer-motion'
 import type { ReactNode } from 'react'
 import './ScrollSection.css'
 
-interface ScrollSectionProps {
+interface ScrollSectionProps extends HTMLMotionProps<"section"> {
   id: string
   className?: string
   background?: 'dark' | 'gradient' | 'transparent' | 'glass'
   padding?: 'none' | 'small' | 'medium' | 'large'
   minHeight?: 'auto' | 'screen' | 'half'
   children: ReactNode
+  variants?: Variants
 }
 
 export const ScrollSection: React.FC<ScrollSectionProps> = ({
@@ -17,7 +19,8 @@ export const ScrollSection: React.FC<ScrollSectionProps> = ({
   background = 'transparent',
   padding = 'large',
   minHeight = 'auto',
-  children
+  children,
+  ...motionProps
 }) => {
   const backgroundClasses = {
     dark: 'bg-dark',
@@ -43,63 +46,73 @@ export const ScrollSection: React.FC<ScrollSectionProps> = ({
     <motion.section
       id={id}
       className={`scroll-section ${backgroundClasses[background]} ${paddingClasses[padding]} ${heightClasses[minHeight]} ${className}`}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: false, amount: 0.3 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      {...motionProps}
     >
       <div className="section-container">
-        {children}
+        {/* Superior Alignment: Consistent flex layout */}
+        <div className="section-layout">
+          {children}
+        </div>
       </div>
     </motion.section>
   )
 }
 
+interface SpecializedSectionProps extends HTMLMotionProps<"section"> {
+  children: ReactNode
+  className?: string
+  variants?: Variants
+}
+
 // Specialized sections
-export const HeroSection: React.FC<{ children: ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <ScrollSection id="hero" background="gradient" minHeight="screen" className={`hero-section ${className}`}>
+export const HeroSection: React.FC<SpecializedSectionProps> = ({ children, className = '', ...props }) => (
+  <ScrollSection id="hero" background="gradient" minHeight="screen" className={`hero-section ${className}`} {...props}>
     {children}
   </ScrollSection>
 )
 
-export const MetaverseSection: React.FC<{ children: ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <ScrollSection id="metaverse" background="dark" minHeight="screen" className={`metaverse-section ${className}`}>
+export const MetaverseSection: React.FC<SpecializedSectionProps> = ({ children, className = '', ...props }) => (
+  <ScrollSection id="metaverse" background="dark" minHeight="screen" className={`metaverse-section ${className}`} {...props}>
     {children}
   </ScrollSection>
 )
 
-export const LandSection: React.FC<{ children: ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <ScrollSection id="land" background="glass" minHeight="screen" className={`land-section ${className}`}>
+export const LandSection: React.FC<SpecializedSectionProps> = ({ children, className = '', ...props }) => (
+  <ScrollSection id="land" background="glass" minHeight="screen" className={`land-section ${className}`} {...props}>
     {children}
   </ScrollSection>
 )
 
-export const CryptoSection: React.FC<{ children: ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <ScrollSection id="crypto" background="gradient" minHeight="screen" className={`crypto-section ${className}`}>
+export const CryptoSection: React.FC<SpecializedSectionProps> = ({ children, className = '', ...props }) => (
+  <ScrollSection id="crypto" background="gradient" minHeight="screen" className={`crypto-section ${className}`} {...props}>
     {children}
   </ScrollSection>
 )
 
-export const CasinoSection: React.FC<{ children: ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <ScrollSection id="casino" background="dark" minHeight="screen" className={`casino-section ${className}`}>
+export const CasinoSection: React.FC<SpecializedSectionProps> = ({ children, className = '', ...props }) => (
+  <ScrollSection id="casino" background="dark" minHeight="screen" className={`casino-section ${className}`} {...props}>
     {children}
   </ScrollSection>
 )
 
-export const EarningSection: React.FC<{ children: ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <ScrollSection id="earning" background="glass" minHeight="screen" className={`earning-section ${className}`}>
+export const EarningSection: React.FC<SpecializedSectionProps> = ({ children, className = '', ...props }) => (
+  <ScrollSection id="earning" background="glass" minHeight="screen" className={`earning-section ${className}`} {...props}>
     {children}
   </ScrollSection>
 )
 
-export const SocialSection: React.FC<{ children: ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <ScrollSection id="social" background="gradient" minHeight="screen" className={`social-section ${className}`}>
+export const SocialSection: React.FC<SpecializedSectionProps> = ({ children, className = '', ...props }) => (
+  <ScrollSection id="social" background="gradient" minHeight="screen" className={`social-section ${className}`} {...props}>
     {children}
   </ScrollSection>
 )
 
-export const CustomizeSection: React.FC<{ children: ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <ScrollSection id="customize" background="dark" minHeight="screen" className={`customize-section ${className}`}>
+export const CustomizeSection: React.FC<SpecializedSectionProps> = ({ children, className = '', ...props }) => (
+  <ScrollSection id="customize" background="dark" minHeight="screen" className={`customize-section ${className}`} {...props}>
     {children}
   </ScrollSection>
 )
