@@ -1,4 +1,4 @@
-import { useEffect, Suspense, useState } from 'react'
+import { useEffect, Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { 
   OrbitControls, 
@@ -38,7 +38,7 @@ import PremiumMetaverseLoader from './components/PremiumMetaverseLoader'
 import './App.css'
 import './components/ScrollingApp.css'
 import './components/ScrollProgress.css'
-import { useWallet } from './hooks/useWallet'
+import { WalletProvider, useWalletContext } from './contexts/WalletContext'
 
 // Ultra-Realistic Metaverse Lighting
 function Lighting() {
@@ -228,31 +228,9 @@ function MetaverseScene() {
   )
 }
 
-// User type definition
-interface User {
-  address: string
-  balance: number
-}
-
 // Hero Section Content
 function HeroContent() {
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
-  const [walletConnecting, setWalletConnecting] = useState(false)
-  const wallet = useWallet()
-
-  const connectWallet = async () => {
-    setWalletConnecting(true)
-    try {
-      const result = await wallet.connectAndSign()
-      if (result?.address) {
-        setCurrentUser({ address: result.address, balance: Math.floor(Math.random() * 10000) })
-      }
-    } catch (error) {
-      console.error('Failed to connect wallet:', error)
-    } finally {
-      setWalletConnecting(false)
-    }
-  }
+  const { address, balanceEth, isConnecting, connectWallet } = useWalletContext()
 
   return (
     <div className="hero-content">
@@ -283,16 +261,16 @@ function HeroContent() {
           <button 
             className="btn-primary"
             onClick={connectWallet}
-            disabled={walletConnecting}
+            disabled={isConnecting}
           >
-            {walletConnecting ? 'Connecting...' : 'Enter Metaverse'}
+            {isConnecting ? 'Connecting...' : 'Enter Metaverse'}
           </button>
           <button className="btn-secondary">
             Watch Demo
           </button>
         </motion.div>
 
-        {currentUser && (
+        {address && (
           <motion.div 
             className="user-status"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -300,7 +278,7 @@ function HeroContent() {
             transition={{ duration: 0.5 }}
           >
             <span className="status-text">
-              Connected: {currentUser.address.slice(0, 6)}...{currentUser.address.slice(-4)}
+              Connected: {address.slice(0, 6)}...{address.slice(-4)} | {balanceEth} ETH
             </span>
           </motion.div>
         )}
@@ -364,9 +342,10 @@ function App() {
   }
 
   return (
-    <WorldProvider>
-      <PremiumMetaverseLoader />
-      <div className="app-container">
+    <WalletProvider>
+      <WorldProvider>
+        <PremiumMetaverseLoader />
+        <div className="app-container">
       {/* Top Navigation */}
       <TopNav 
         currentSection={currentSection}
@@ -505,8 +484,9 @@ function App() {
 
       {/* Loading Screen */}
       <Suspense fallback={<Loader />} />
-      </div>
-    </WorldProvider>
+        </div>
+      </WorldProvider>
+    </WalletProvider>
   )
 }
 

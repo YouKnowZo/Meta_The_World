@@ -210,7 +210,7 @@ export const VirtualLife: React.FC<VirtualLifeProps> = ({ isVisible }) => {
     if (avatar.experience >= expNeeded) {
       levelUp();
     }
-  }, [avatar.experience, avatar.level]);
+  }, [avatar.experience, avatar.level, levelUp]);
 
   if (!isVisible) return null;
 

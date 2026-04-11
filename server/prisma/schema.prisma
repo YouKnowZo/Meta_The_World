@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id          String    @id @default(uuid())
+  address     String    @unique
+  balance     Float     @default(2000.0)
+  vipLevel    Int       @default(1)
+  reputation  Int       @default(0)
+  lands       Land[]
+  avatar      Avatar?
+  vehicles    Vehicle[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Land {
+  id          String     @id @default(uuid())
+  landId      Int        @unique
+  ownerId     String?
+  owner       User?      @relation(fields: [ownerId], references: [id])
+  price       Float
+  type        String
+  resources   Int        @default(100)
+  developed   Boolean    @default(false)
+  lat         Float
+  lng         Float
+  posX        Float
+  posY        Float
+  posZ        Float
+  buildings   Building[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Building {
+  id          String   @id @default(uuid())
+  type        String
+  level       Int      @default(1)
+  income      Float    @default(0.0)
+  posX        Float
+  posY        Float
+  posZ        Float
+  landId      String
+  land        Land     @relation(fields: [landId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Avatar {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  skin        String   @default("medium")
+  hair        String   @default("black-short")
+  eyes        String   @default("brown")
+  top         String   @default("casual-tshirt")
+  bottom      String   @default("jeans")
+  shoes       String   @default("sneakers")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Vehicle {
+  id          String   @id @default(uuid())
+  type        String
+  brand       String
+  model       String
+  color       String   @default("#ff6b6b")
+  price       Float
+  ownerId     String?
+  owner       User?     @relation(fields: [ownerId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

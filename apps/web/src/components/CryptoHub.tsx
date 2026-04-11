@@ -1,57 +1,23 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useWalletContext } from '../contexts/WalletContext';
 
 export interface CryptoHubProps {
   isVisible: boolean;
   onClose: () => void;
 }
 
-interface Transaction {
-  id: string;
-  type: 'send' | 'receive';
-  amount: number;
-  currency: string;
-  address: string;
-  status: 'pending' | 'confirmed' | 'failed';
-  timestamp: Date;
-}
-
 export const CryptoHub: React.FC<CryptoHubProps> = ({ isVisible }) => {
   const [activeTab, setActiveTab] = useState<'send' | 'receive' | 'nft' | 'history'>('send');
-  const [balance, setBalance] = useState({ eth: 2.45, usd: 8234.56 });
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const { balanceEth, balanceUsd, transactions, sendTransaction, address } = useWalletContext();
   const [sendForm, setSendForm] = useState({ address: '', amount: '', currency: 'ETH' });
   const [nftForm, setNftForm] = useState({ address: '', tokenId: '', contract: '' });
 
-  const handleSendCrypto = () => {
-    const newTransaction: Transaction = {
-      id: Date.now().toString(),
-      type: 'send',
-      amount: parseFloat(sendForm.amount),
-      currency: sendForm.currency,
-      address: sendForm.address,
-      status: 'pending',
-      timestamp: new Date()
-    };
+  const handleSendCrypto = async () => {
+    if (!sendForm.address || !sendForm.amount) return;
     
-    setTransactions(prev => [newTransaction, ...prev]);
+    await sendTransaction(sendForm.address, sendForm.amount, sendForm.currency);
     setSendForm({ address: '', amount: '', currency: 'ETH' });
-    
-    // Simulate transaction confirmation
-    setTimeout(() => {
-      setTransactions(prev => 
-        prev.map(tx => 
-          tx.id === newTransaction.id 
-            ? { ...tx, status: 'confirmed' }
-            : tx
-        )
-      );
-      setBalance(prev => ({
-        ...prev,
-        eth: prev.eth - newTransaction.amount,
-        usd: prev.usd - (newTransaction.amount * 3360) // ETH price simulation
-      }));
-    }, 3000);
   };
 
   const handleSendNFT = () => {
@@ -71,8 +37,8 @@ export const CryptoHub: React.FC<CryptoHubProps> = ({ isVisible }) => {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
       <div className="balance-display">
-        <div className="balance-amount">{balance.eth.toFixed(3)} ETH</div>
-        <div className="balance-usd">${balance.usd.toLocaleString()}</div>
+        <div className="balance-amount">{balanceEth} ETH</div>
+        <div className="balance-usd">${balanceUsd.toLocaleString()}</div>
       </div>
 
       <div className="crypto-tabs">
@@ -146,7 +112,7 @@ export const CryptoHub: React.FC<CryptoHubProps> = ({ isVisible }) => {
             <div className="form-group">
               <label className="form-label">Your Wallet Address</label>
               <div className="wallet-address">
-                0x742d35Cc6A3A9bC7d1b9b26FD3a5e8C4f8e9D2a1
+                {address || 'Not connected'}
               </div>
             </div>
             <div className="qr-code-container">
