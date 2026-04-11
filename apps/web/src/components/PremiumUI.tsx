@@ -51,7 +51,7 @@ export const PremiumUI: React.FC<PremiumUIProps> = ({ cryptoData }) => {
     return () => clearInterval(interval)
   }, [])
 
-  const ownedLands = lands.filter(land => land.owner === currentUser?.address)
+  const ownedLands = lands.filter(land => land.ownerId === currentUser?.id)
   const totalValue = ownedLands.reduce((sum, land) => sum + land.price, 0)
   const profitLoss = totalValue - ownedLands.reduce((sum, land) => sum + (land.purchasePrice || land.price), 0)
 
@@ -64,11 +64,12 @@ export const PremiumUI: React.FC<PremiumUIProps> = ({ cryptoData }) => {
     }
   }
 
-  const handlePurchase = () => {
-    if (selectedLand && currentUser && currentUser.balance >= selectedLand.price) {
-      purchaseLand(selectedLand.id, selectedLand.price)
-      setShowNotification(true)
-      setTimeout(() => setShowNotification(false), 3000)
+  const handlePurchase = async (landId?: number, price?: number) => {
+    const targetId = landId || selectedLand?.id
+    const targetPrice = price || selectedLand?.price
+    
+    if (targetId && targetPrice && currentUser && currentUser.balance >= targetPrice) {
+      await purchaseLand(targetId, targetPrice)
     }
   }
 
@@ -181,9 +182,9 @@ export const PremiumUI: React.FC<PremiumUIProps> = ({ cryptoData }) => {
                   .map((land) => (
                   <motion.div
                     key={land.id}
-                    className={`land-card ${land.owner ? 'owned' : 'available'}`}
+                    className={`land-card ${land.ownerId ? 'owned' : 'available'}`}
                     whileHover={{ y: -5, boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}
-                    onClick={() => !land.owner && handlePurchase()}
+                    onClick={() => !land.ownerId && handlePurchase(land.id, land.price)}
                   >
                     <div className="card-header">
                       <div className="land-id">#{land.id}</div>
@@ -197,7 +198,7 @@ export const PremiumUI: React.FC<PremiumUIProps> = ({ cryptoData }) => {
                     
                     <div className="land-preview">
                       <div className="land-visualization"></div>
-                      {land.owner && <div className="sold-overlay">SOLD</div>}
+                      {land.ownerId && <div className="sold-overlay">SOLD</div>}
                     </div>
                     
                     <div className="card-footer">
@@ -205,7 +206,7 @@ export const PremiumUI: React.FC<PremiumUIProps> = ({ cryptoData }) => {
                         <span className="price">{land.price} ETH</span>
                         <span className="usd-price">${(land.price * cryptoData.ethPrice).toFixed(0)}</span>
                       </div>
-                      {!land.owner && (
+                      {!land.ownerId && (
                         <button className="buy-btn">
                           ⚡ BUY NOW
                         </button>
@@ -367,10 +368,10 @@ export const PremiumUI: React.FC<PremiumUIProps> = ({ cryptoData }) => {
                   <div className="feature">💎 Investment Grade</div>
                 </div>
 
-                {!selectedLand.owner && currentUser && (
+                {!selectedLand.ownerId && currentUser && (
                   <motion.button
                     className="purchase-btn"
-                    onClick={handlePurchase}
+                    onClick={() => handlePurchase(selectedLand.id, selectedLand.price)}
                     disabled={currentUser.balance < selectedLand.price}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -382,9 +383,9 @@ export const PremiumUI: React.FC<PremiumUIProps> = ({ cryptoData }) => {
                   </motion.button>
                 )}
 
-                {selectedLand.owner && (
+                {selectedLand.ownerId && (
                   <div className="owned-indicator">
-                    ✅ OWNED BY {selectedLand.owner === currentUser?.address ? 'YOU' : 'ANOTHER USER'}
+                    ✅ OWNED BY {selectedLand.ownerId === currentUser?.id ? 'YOU' : 'ANOTHER USER'}
                   </div>
                 )}
               </div>

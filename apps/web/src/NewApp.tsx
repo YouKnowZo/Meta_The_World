@@ -39,6 +39,7 @@ import './App.css'
 import './components/ScrollingApp.css'
 import './components/ScrollProgress.css'
 import { WalletProvider, useWalletContext } from './contexts/WalletContext'
+import { ToastNotification } from './components/ToastNotification'
 
 // Ultra-Realistic Metaverse Lighting
 function Lighting() {
@@ -265,7 +266,7 @@ function HeroContent() {
           >
             {isConnecting ? 'Connecting...' : 'Enter Metaverse'}
           </button>
-          <button className="btn-secondary">
+          <button className="btn-secondary" onClick={() => window.open('https://youtube.com', '_blank')}>
             Watch Demo
           </button>
         </motion.div>
@@ -308,7 +309,8 @@ function HeroContent() {
 }
 
 function App() {
-  const { generateWorld } = useGameStore()
+  const { fetchLands, syncBackend } = useGameStore()
+  const { address } = useWalletContext()
   
   const sections = [
     { id: 'hero', name: 'Home' },
@@ -324,8 +326,14 @@ function App() {
   const { currentSection, scrollToSection } = useScrollSections(sections)
 
   useEffect(() => {
-    generateWorld()
-  }, [generateWorld])
+    fetchLands()
+  }, [fetchLands])
+
+  useEffect(() => {
+    if (address) {
+      syncBackend()
+    }
+  }, [address, syncBackend])
 
   const sectionVariants = {
     hidden: { opacity: 0, y: 40, scale: 0.95 },
@@ -485,6 +493,7 @@ function App() {
       {/* Loading Screen */}
       <Suspense fallback={<Loader />} />
         </div>
+        <ToastNotification />
       </WorldProvider>
     </WalletProvider>
   )

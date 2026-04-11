@@ -3,7 +3,7 @@ import { create } from 'zustand'
 export interface Land {
   id: number
   position: [number, number, number]
-  owner: string | null
+  ownerId: string | null
   price: number
   type: 'residential' | 'commercial' | 'industrial' | 'park' | 'beach' | 'mountain'
   buildings: Building[]
@@ -22,6 +22,7 @@ export interface Building {
 }
 
 export interface User {
+  id: string
   address: string
   balance: number
   ownedLands: number[]
@@ -59,6 +60,8 @@ interface GameState {
   buildOnLand: (landId: number, building: Building) => void
   syncBackend: () => Promise<void>
   fetchLands: () => Promise<void>
+  saveAvatar: (avatarData: any) => Promise<void>
+  buyVehicle: (vehicleData: any) => Promise<void>
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -162,13 +165,58 @@ export const useGameStore = create<GameState>((set, get) => ({
       const res = await fetch('http://localhost:4000/api/lands')
       if (res.ok) {
         const lands = await res.json()
-        // Format to match local layout if needed, but our schema matches
-        // Wait, schema has 'id' string, 'landId' int. The frontend expects 'id' int natively?
-        // Let's map it so the frontend doesn't break.
-        set({ lands: lands.map((l: any) => ({ ...l, id: l.landId })) })
+        set({ lands: lands.map((l: any) => ({ ...l, id: l.landId, ownerId: l.ownerId })) })
       }
     } catch(err) {
       console.error(err)
+    }
+  },
+
+  saveAvatar: async (avatarData) => {
+    const token = localStorage.getItem('meta_token')
+    if (!token) {
+      get().addNotification('Please login to save avatar', 'error')
+      return;
+    }
+    try {
+      const res = await fetch('http://localhost:4000/api/avatar/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(avatarData)
+      });
+      if (res.ok) {
+        get().addNotification('Avatar saved successfully!', 'success');
+        get().syncBackend();
+      } else {
+        const error = await res.json();
+        get().addNotification(`Failed to save avatar: ${error.error || 'Unknown'}`, 'error');
+      }
+    } catch (e) {
+      get().addNotification('Network error occurred', 'error')
+    }
+  },
+
+  buyVehicle: async (vehicleData) => {
+    const token = localStorage.getItem('meta_token')
+    if (!token) {
+      get().addNotification('Please login to buy vehicles', 'error')
+      return;
+    }
+    try {
+      const res = await fetch('http://localhost:4000/api/vehicles/buy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(vehicleData)
+      });
+      if (res.ok) {
+        get().addNotification(`Vehicle purchased successfully!`, 'success');
+        get().syncBackend();
+      } else {
+        const error = await res.json();
+        get().addNotification(`Failed to buy vehicle: ${error.error || 'Unknown'}`, 'error');
+      }
+    } catch (e) {
+      get().addNotification('Network error occurred', 'error')
     }
   }
 }))

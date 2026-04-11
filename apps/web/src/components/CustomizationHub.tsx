@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useGameStore } from '../store'
 
 export interface Avatar {
   appearance: {
@@ -84,7 +85,7 @@ export interface Furniture {
 }
 
 export const CustomizationHub: React.FC = () => {
-  // const { currentUser } = useGameStore()
+  const { saveAvatar, buyVehicle, addNotification } = useGameStore()
   const [activeCategory, setActiveCategory] = useState<'avatar' | 'home' | 'vehicle'>('avatar')
   const [currentAvatar, setCurrentAvatar] = useState<Avatar>({
     appearance: {
@@ -358,7 +359,12 @@ export const CustomizationHub: React.FC = () => {
                 </div>
 
                 <div className="save-section">
-                  <button className="save-btn">
+                  <button className="save-btn" onClick={() => saveAvatar({
+                    skin: currentAvatar.appearance.skin,
+                    hair: currentAvatar.appearance.hair,
+                    top: currentAvatar.clothing.top,
+                    bottom: currentAvatar.clothing.bottom
+                  })}>
                     💾 Save Avatar Changes
                   </button>
                 </div>
@@ -394,7 +400,21 @@ export const CustomizationHub: React.FC = () => {
                           </div>
                         </div>
                         <p className="price">${vehicle.price.toLocaleString()}</p>
-                        <button className={`vehicle-btn ${vehicle.owned ? 'customize' : 'buy'}`}>
+                        <button 
+                          className={`vehicle-btn ${vehicle.owned ? 'customize' : 'buy'}`}
+                          onClick={() => {
+                            if (vehicle.owned) {
+                              addNotification('This feature is yet to be fully implemented!', 'info')
+                            } else {
+                              buyVehicle({
+                                brand: vehicle.brand,
+                                model: vehicle.model,
+                                type: vehicle.type,
+                                price: vehicle.price
+                              })
+                            }
+                          }}
+                        >
                           {vehicle.owned ? '🔧 Customize' : '💰 Buy'}
                         </button>
                       </div>
@@ -428,13 +448,13 @@ export const CustomizationHub: React.FC = () => {
                         </div>
                         <p>Theme: {room.theme}</p>
                         <p>Items: {room.decorations.length}</p>
-                        <button className="room-btn">🎨 Decorate</button>
+                        <button className="room-btn" onClick={() => addNotification('This feature is yet to be fully implemented!', 'info')}>🎨 Decorate</button>
                       </div>
                     ))}
                   </div>
                   
                   <div className="add-room-section">
-                    <button className="add-room-btn">
+                    <button className="add-room-btn" onClick={() => addNotification('This feature is yet to be fully implemented!', 'info')}>
                       ➕ Add New Room
                     </button>
                   </div>
