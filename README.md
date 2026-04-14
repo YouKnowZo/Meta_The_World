@@ -105,7 +105,7 @@ Full setup instructions will be added to `docs/SETUP.md` as each phase completes
 
 ## Contributing
 
-Contributions are welcome once the Genesis phase scaffolding is in place. Please read `CONTRIBUTING.md` (coming soon) before opening a pull request.
+Contributions are welcome once the Genesis phase scaffolding is in place. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 ## License
 
