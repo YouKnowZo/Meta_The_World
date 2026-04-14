@@ -69,6 +69,24 @@ func (h *WSHandler) Handle(w http.ResponseWriter, r *http.Request) {
 				}
 				mu.Unlock()
 			}
+		case "AGENT_INTERACTION":
+			var payload struct {
+				AgentID string `json:"agentId"`
+				Message string `json:"message"`
+			}
+			if err := json.Unmarshal(msg.Payload, &payload); err == nil {
+				log.Printf("Agent %s interaction: %s", payload.AgentID, payload.Message)
+				// In a real implementation, this would call the ai-agent service
+			}
+		case "GAMBLING_EVENT":
+			var payload struct {
+				Type   string `json:"type"`
+				Amount string `json:"amount"`
+			}
+			if err := json.Unmarshal(msg.Payload, &payload); err == nil {
+				log.Printf("Gambling event: %s for %s", payload.Type, payload.Amount)
+				// Broadcast event to other users in the zone
+			}
 		}
 	}
 }

@@ -17,7 +17,8 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 const navItems = [
   { name: 'Map View', href: '/', icon: MapIcon },
   { name: 'Inventory', href: '/inventory', icon: Box },
-  { name: 'Marketplace', href: '/marketplace', icon: ShoppingBag },
+  { name: 'Diamond District', href: '/diamond-district', icon: LayoutDashboard },
+  { name: 'Dealership', href: '/dealership', icon: ShoppingBag },
   { name: 'Profile', href: '/profile', icon: User },
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
