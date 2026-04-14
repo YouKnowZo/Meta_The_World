@@ -3,10 +3,10 @@ import db from '../db';
 import { z } from 'zod';
 
 const BBoxSchema = z.object({
-  min_lng: z.coerce.number(),
-  min_lat: z.coerce.number(),
-  max_lng: z.coerce.number(),
-  max_lat: z.coerce.number(),
+  min_lng: z.coerce.number().min(-180).max(180),
+  min_lat: z.coerce.number().min(-90).max(90),
+  max_lng: z.coerce.number().min(-180).max(180),
+  max_lat: z.coerce.number().min(-90).max(90),
 });
 
 export const getParcelsByBBox = async (req: Request, res: Response) => {
