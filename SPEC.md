@@ -2,7 +2,7 @@
 
 **Version:** 0.1.0-draft  
 **Status:** In Review  
-**Last Updated:** 2024-01
+**Last Updated:** 2024-04
 
 ---
 
@@ -511,3 +511,7 @@ interface ILandRegistry {
 
 - NFT land sales may constitute a regulated financial instrument in certain jurisdictions. Legal counsel to review prior to public mint launch.
 - DAO governance tokens (`MTW`) assessed against applicable securities laws before exchange listings.
+
+---
+
+*For the development timeline and upcoming milestones, see [ROADMAP.md](ROADMAP.md).*
