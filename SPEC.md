@@ -357,6 +357,26 @@ POST /v1/land/transfer                           → { txHash: string }
 GET  /v1/land/:tokenId/history                   → TransferEvent[]
 ```
 
+### 5.4 UE6 Bridge (gRPC)
+
+The Bridge service provides high-frequency synchronization for Unreal Engine 6 clients.
+
+**Service:** `BridgeService`
+
+- `rpc StreamEntityUpdates(stream EntityState) returns (stream EntityBatch)`
+  - Continuous stream of entity positions, rotations, and velocities.
+  - Server aggregates updates and broadcasts to relevant spatial zones.
+- `rpc SubscribeEvents(SubscribeRequest) returns (stream WorldEvent)`
+  - Spatial subscription based on S2 Cell IDs.
+  - Receives `ENTITY_UPDATE`, `WORLD_EVENT`, and `PHYGITAL_TRIGGER` events.
+
+### 5.5 UE6 Bridge (WebSocket)
+
+Alternative channel for event broadcasting.
+
+- `SUBSCRIBE_ZONE`: `{ "type": "SUBSCRIBE_ZONE", "payload": { "zoneId": string } }`
+- `ENTITY_STATE`: `{ "type": "ENTITY_STATE", "payload": EntityState }`
+
 ---
 
 ## 6. Smart Contract Specification
@@ -421,6 +441,8 @@ interface ILandRegistry {
 | High-throughput Services | Go | 1.22+ |
 | Geospatial Database | PostgreSQL + PostGIS | 15 / 3.3 |
 | Cache & Pub/Sub | Redis | 7.2 |
+| Spatial Indexing | S2 Geometry | — |
+| Communication | gRPC / WebSockets | — |
 | Smart Contracts | Solidity | 0.8.24 |
 | Contract Toolchain | Foundry (forge, cast, anvil) | latest |
 | Blockchain Network | Polygon PoS (mainnet) / Amoy (testnet) | — |

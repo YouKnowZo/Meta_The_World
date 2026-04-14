@@ -15,6 +15,7 @@ The platform is built around three core pillars:
 | 🌍 **Hyper-Realism** | Nanite geometry, Lumen global illumination, and real-world GIS/LiDAR data produce a 1:1 replica of Earth at cinematic fidelity. |
 | 🔗 **Digital Twin** | Live feeds from IoT sensors, weather APIs, and urban datasets keep the virtual world continuously synchronised with its physical counterpart. |
 | 🏛️ **Blockchain Ownership** | Every land parcel is a unique ERC-721 NFT on Polygon, providing transparent, permissionless, and interoperable ownership. |
+| 🌉 **UE6 Bridge** | High-performance gRPC/WebSocket synchronization layer for real-time spatial state and "Phygital" events. |
 
 ---
 
