@@ -9,7 +9,9 @@ import {
   ShoppingBag, 
   Settings, 
   User,
-  Box
+  Box,
+  Car,
+  Dices
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -18,6 +20,8 @@ const navItems = [
   { name: 'Map View', href: '/', icon: MapIcon },
   { name: 'Inventory', href: '/inventory', icon: Box },
   { name: 'Marketplace', href: '/marketplace', icon: ShoppingBag },
+  { name: 'Dealership', href: '/dealership', icon: Car },
+  { name: 'Diamond District', href: '/gambling', icon: Dices },
   { name: 'Profile', href: '/profile', icon: User },
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
