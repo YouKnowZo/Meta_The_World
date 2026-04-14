@@ -53,8 +53,13 @@ cd Meta_The_World
 # Install backend dependencies
 cd services && npm install
 
+# Install frontend dependencies
+cd ../apps/web && npm install
+
 # Copy environment template
+cd ../..
 cp .env.example .env
+cp apps/web/.env.local.example apps/web/.env.local
 
 # Start local development stack (Docker required)
 docker compose up -d
