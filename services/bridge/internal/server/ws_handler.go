@@ -69,6 +69,19 @@ func (h *WSHandler) Handle(w http.ResponseWriter, r *http.Request) {
 				}
 				mu.Unlock()
 			}
+		case "AGENT_INTERACTION":
+			var payload struct {
+				AgentID string `json:"agentId"`
+				Message string `json:"message"`
+				UserID  string `json:"userId"`
+			}
+			if err := json.Unmarshal(msg.Payload, &payload); err == nil {
+				log.Printf("Received agent interaction for %s: %s", payload.AgentID, payload.Message)
+				// In a full implementation, this would forward the request to the services/ai-agent
+				// and stream the response back to the client.
+			}
+		case "GAMBLING_BET":
+			log.Printf("Gambling bet received via bridge, routing to Diamond District contracts")
 		}
 	}
 }

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Map, { Source, Layer, NavigationControl, Popup } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { AIConcierge } from '../ai/ai-concierge';
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
@@ -80,6 +81,7 @@ export function MapViewer() {
           </div>
         )}
       </Map>
+      <AIConcierge />
     </div>
   );
 }

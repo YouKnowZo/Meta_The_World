@@ -52,6 +52,24 @@ message WorldEvent {
   google.protobuf.Timestamp timestamp = 5;
 }
 
+message GamblingResult {
+  string request_id = 1;
+  string player = 2;
+  uint32 game_type = 3;
+  uint64 bet_amount = 4;
+  uint64 win_amount = 5;
+  string result_hash = 6;
+  string parcel_id = 7;
+}
+
+message AgentInteraction {
+  string agent_id = 1;
+  string user_id = 2;
+  string message = 3;
+  string response = 4;
+  string interaction_type = 5; // e.g., "CONCIERGE_CHAT", "MYSTERY_SHOP_REPORT"
+}
+
 message PhygitalTrigger {
   string trigger_id = 1;
   string source = 2;
