@@ -116,3 +116,103 @@ Contributions are welcome once the Genesis phase scaffolding is in place. Please
 ## License
 
 [MIT](LICENSE)
+
+---
+
+## New Features (Phase 0) 🚀
+
+The following features were implemented as part of the **Phase 0 Revenue Engine**, transforming the platform into a multi-vertical monetisation powerhouse.
+
+### 🏪 NFT Marketplace
+A full-featured secondary market for all MTW assets.
+- Browse, filter, and sort Land, Vehicle, Wearable, and Building NFTs
+- Make offers with ETH escrow; sellers can accept at any time
+- **EIP-2981 royalty auto-payment** — creators earn on every secondary sale
+- **2.5% platform fee** collected on all transactions
+- Mint new NFTs directly via on-platform modal (0.05 ETH fee)
+- Backed by `NFTMarketplace.sol` — fully auditable Solidity 0.8.24 contract
+
+### 📈 Crypto Market Dashboard
+Real-time market data for metaverse-native investors.
+- Live prices for 8 tokens: BTC, ETH, MATIC, SAND, MANA, AXS, ILV, ATLAS
+- 1h / 24h / 7d percentage change with colour coding
+- MTW Token tokenomics panel (supply, circulating, staked, treasury)
+- Built-in **MTW ↔ USD converter**
+- Manual refresh + auto-loading via CoinGecko public API
+
+### 💹 Live Crypto Price Ticker
+Always-visible market pulse at the top of every page.
+- Scrolling ticker for BTC, ETH, MATIC, USDT with live prices
+- Blinking 🟢 LIVE indicator
+- 30-second polling with last-known-price fallback on API errors
+- Injected globally in `layout.tsx` — zero configuration required
+
+### 🎉 Party Room
+Immersive, free-to-enter social experience.
+- Full-screen animated dance floor with 20 bouncing avatar circles
+- **Live chat panel** with auto-appending messages every 3 seconds
+- Floating emoji reaction overlay (click to launch floating emojis)
+- Animated DJ equalizer with now-playing track display
+- Room stats bar: Active / Dancing / Chatting / Watching
+- Upcoming events calendar with entry prices
+
+### 👑 VIP Rooms
+Exclusive paid social spaces with on-chain enforcement.
+- 6 curated rooms: The Penthouse, Crypto Whales Lounge, Genesis Founders Club, NFT Elite Gallery, Diamond Vault, Metaverse Summit
+- Entry fees from 50 MTW to 1,000 MTW — enforced by `PartyRoom.sol`
+- **85% revenue to room creator / 15% to DAO Treasury** — verified on-chain
+- Entry fee payment modal with wallet integration
+- Earnings calculator for prospective room hosts
+- Create your own VIP room for 500 MTW setup fee
+
+### 📣 Ad Space Marketplace
+The metaverse's first transparent virtual billboard market.
+- 6 premium locations: Paris, NYC, Tokyo, Dubai, London, Sydney
+- Book by duration: 7 / 30 / 90 days
+- **60% revenue to land owner / 40% to platform** — enforced by `AdSpace.sol`
+- Overlap detection prevents double-booking
+- 48-hour cancellation window with full refund
+- Budget calculator with estimated impression projections
+- Campaign submission form with multi-location selection
+
+### ⛓️ New Smart Contracts
+
+| Contract | Purpose | Key Feature |
+|---|---|---|
+| `NFTMarketplace.sol` | ERC-721 & ERC-1155 marketplace | EIP-2981 royalties, offer escrow |
+| `PartyRoom.sol` | VIP room access control | 85/15 revenue split |
+| `AdSpace.sol` | Virtual billboard booking | 60/40 revenue split, overlap check |
+| `PlatformRevenue.sol` | Central treasury aggregator | 4-way split: Dev/Mktg/DAO/Team |
+
+### 🧭 Updated Navigation
+- Sidebar now includes: NFT Marketplace, Crypto Prices, Party Room, VIP Rooms, Ad Space
+- **MTW Balance** widget in sidebar with gold coin icon and USD equivalent
+- All new pages wrapped in consistent dark dashboard layout
+
+---
+
+## Quick Start
+
+```bash
+# Install dependencies
+cd apps/web && npm install
+
+# Run development server
+npm run dev
+
+# Open in browser
+open http://localhost:3000
+```
+
+## Contract Deployment
+
+```bash
+cd contracts
+forge build
+forge script script/Deploy.s.sol --broadcast --rpc-url $RPC_URL
+```
+
+---
+
+*See [BUSINESS_PLAN.md](BUSINESS_PLAN.md) for revenue projections and investor information.*
+*See [ROADMAP.md](ROADMAP.md) for the complete development timeline.*

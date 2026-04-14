@@ -15,6 +15,67 @@
 
 ---
 
+## Phase 0 — Revenue Engine `Completed Q1 2026`
+
+**Theme:** Monetisation infrastructure, live market data, and social/entertainment features.
+
+Phase 0 layers a full revenue engine on top of the Genesis foundation — turning the platform into a self-sustaining economy before global rollout.
+
+### NFT Marketplace
+- ✅ `NFTMarketplace.sol` — ERC-721 & ERC-1155 listing, buying, cancellation
+- ✅ On-chain offer system with ETH escrow (makeOffer / acceptOffer)
+- ✅ EIP-2981 royalty auto-distribution on every sale
+- ✅ 2.5% platform fee with accumulated fee withdrawal
+- ✅ Frontend marketplace page — Browse, My Listings, Activity tabs
+- ✅ Filter by type (Land / Vehicle / Wearable / Building) and sort options
+- ✅ Mint New NFT modal with live minting state
+
+### VIP Rooms
+- ✅ `PartyRoom.sol` — on-chain room creation, entry fee collection, creator earnings
+- ✅ 85% creator / 15% DAO treasury revenue split enforced on-chain
+- ✅ 6 curated VIP rooms with unique perks and entry fees
+- ✅ Entry fee payment modal with wallet integration
+- ✅ Earnings calculator for prospective room creators
+- ✅ "Create Your Own Room" CTA with setup flow
+
+### Ad Space Marketplace
+- ✅ `AdSpace.sol` — parcel-linked ad slot registration and booking
+- ✅ 60% land owner / 40% platform revenue split enforced on-chain
+- ✅ 48-hour cancellation window with full refund
+- ✅ Overlap detection prevents double-booking
+- ✅ Frontend ad marketplace — Available Slots and My Campaigns tabs
+- ✅ Budget calculator with estimated impression projections
+
+### Crypto Market Dashboard
+- ✅ Live CoinGecko API integration (8 metaverse-relevant coins)
+- ✅ 1h / 24h / 7d % change with colour coding
+- ✅ MTW Token tokenomics display (supply, circulating, staked, treasury)
+- ✅ MTW ↔ USD live converter
+
+### Live Crypto Price Ticker
+- ✅ Global ticker bar (BTC, ETH, MATIC, USDT) — visible on every page
+- ✅ 30-second polling with last-known-price fallback
+- ✅ Blinking LIVE indicator; green/red 24h change colouring
+
+### Party Room
+- ✅ Immersive full-screen experience with animated dance floor
+- ✅ Live chat panel with auto-appending messages every 3 seconds
+- ✅ Floating emoji reaction overlay
+- ✅ DJ equalizer animation and now-playing display
+- ✅ Upcoming events list
+
+### Platform Treasury
+- ✅ `PlatformRevenue.sol` — central treasury aggregating all revenue sources
+- ✅ 4-way split: Development 30%, Marketing 20%, DAO Treasury 30%, Team 20%
+- ✅ Monthly revenue reporting view function
+
+### Navigation & Developer Experience
+- ✅ Sidebar: 5 new nav items + MTW balance display
+- ✅ `api-client.ts` extended with typed methods for all new features
+- ✅ `Deploy.s.sol` updated to deploy all 4 new contracts
+
+---
+
 ## Phase 1 — Genesis `Q4 2023 – Q1 2024`
 
 **Theme:** Technical foundation, on-chain primitives, and spatial data infrastructure.
