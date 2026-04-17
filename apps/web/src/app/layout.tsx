@@ -1,27 +1,49 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Web3Provider } from "@/components/providers/web3-provider";
 import { CryptoPriceTicker } from "@/components/dashboard/crypto-ticker";
+import { LegalFooter } from "@/components/dashboard/LegalFooter";
+import { CookieBanner } from "@/components/dashboard/CookieBanner";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Meta The World | Dashboard",
-  description: "Manage your land and assets in the digital twin metaverse.",
+  title: "Meta The World by PaperBagExpress | Digital Twin Metaverse",
+  description: "A hyper-realistic 1:1 digital twin of Earth built on Unreal Engine 5, blockchain ownership, and geospatial data. Own virtual land, trade NFTs.",
+  keywords: ["metaverse", "NFT", "blockchain", "digital twin", "virtual land", "cryptocurrency", "Meta The World", "PaperBagExpress"],
+  authors: [{ name: "PaperBagExpress" }],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://metatheworld.online",
+    siteName: "Meta The World by PaperBagExpress",
+    title: "Meta The World by PaperBagExpress | Digital Twin Metaverse",
+    description: "A hyper-realistic 1:1 digital twin of Earth. Own virtual land, trade NFTs, and explore the metaverse.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Meta The World by PaperBagExpress",
+    description: "A hyper-realistic digital twin of Earth built on UE5 and blockchain.",
+  },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: "#0f172a",
+  colorScheme: "dark",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
         <Web3Provider>
-          <CryptoPriceTicker />
-          {children}
+          <div className="min-h-screen bg-slate-950 flex flex-col">
+            <CryptoPriceTicker />
+            <main className="flex-1">{children}</main>
+            <LegalFooter />
+          </div>
+          <CookieBanner />
         </Web3Provider>
       </body>
     </html>
