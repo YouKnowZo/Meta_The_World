@@ -1,8 +1,16 @@
 {
+  "version": 2,
   "framework": "nextjs",
+  "outputDirectory": ".next",
   "env": {
     "NEXT_PUBLIC_SITE_URL": "https://metatheworld.online"
   },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/$1"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
