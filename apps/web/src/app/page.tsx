@@ -12,8 +12,7 @@ import {
   Map, Gem, Car, Wallet, ChevronRight, Globe, 
   TrendingUp, Shield, Zap, Users, ArrowRight, Sparkles
 } from "lucide-react";
-import { CoinGeckoPrice } from "./crypto-prices/page";
-import { CryptoPriceTicker } from "@/components/dashboard/CryptoPriceTicker";
+import { CryptoPriceTicker } from "@/components/dashboard/crypto-ticker";
 
 // Real Contract ABIs - simplified for actual interactions
 const LAND_REGISTRY_ABI = [
