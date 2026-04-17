@@ -1,10 +1,28 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Web3Provider } from "@/components/providers/web3-provider";
-import { CryptoPriceTicker } from "@/components/dashboard/crypto-ticker";
-import { LegalFooter } from "@/components/dashboard/LegalFooter";
-import { CookieBanner } from "@/components/dashboard/CookieBanner";
+import dynamic from "next/dynamic";
+
+// Dynamically import client-only components to prevent hydration errors
+const Web3Provider = dynamic(
+  () => import("@/components/providers/web3-provider").then(m => ({ default: m.Web3Provider })),
+  { ssr: false }
+);
+
+const CryptoPriceTicker = dynamic(
+  () => import("@/components/dashboard/crypto-ticker").then(m => ({ default: m.CryptoPriceTicker })),
+  { ssr: false }
+);
+
+const LegalFooter = dynamic(
+  () => import("@/components/dashboard/LegalFooter").then(m => ({ default: m.LegalFooter })),
+  { ssr: false }
+);
+
+const CookieBanner = dynamic(
+  () => import("@/components/dashboard/CookieBanner").then(m => ({ default: m.CookieBanner })),
+  { ssr: false }
+);
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,6 +31,7 @@ export const metadata: Metadata = {
   description: "A hyper-realistic 1:1 digital twin of Earth built on Unreal Engine 5, blockchain ownership, and geospatial data. Own virtual land, trade NFTs.",
   keywords: ["metaverse", "NFT", "blockchain", "digital twin", "virtual land", "cryptocurrency", "Meta The World", "PaperBagExpress"],
   authors: [{ name: "PaperBagExpress" }],
+  metadataBase: new URL("https://metatheworld.online"),
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -35,8 +54,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className} suppressHydrationWarning>
         <Web3Provider>
           <div className="min-h-screen bg-slate-950 flex flex-col">
             <CryptoPriceTicker />
