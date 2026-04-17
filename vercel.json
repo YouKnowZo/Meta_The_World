@@ -1,21 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "apps/web/package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "installCommand": "cd apps/web && npm install --legacy-peer-deps",
+  "framework": "nextjs",
+  "rootDirectory": "apps/web",
   "env": {
     "NEXT_PUBLIC_SITE_URL": "https://metatheworld.online"
   },
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/$1"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
