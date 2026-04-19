@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Meta The World | Dashboard",
-  description: "Manage your land and assets in the digital twin metaverse.",
+  description: "Manage your land and assets in the paperbagexpress metaverse.",
 };
 
 export default function RootLayout({
