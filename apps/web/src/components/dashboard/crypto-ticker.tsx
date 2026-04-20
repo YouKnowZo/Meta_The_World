@@ -48,7 +48,27 @@ export function CryptoPriceTicker() {
         { next: { revalidate: 0 } }
       );
       if (!res.ok) throw new Error('API error');
- const formatPrice = (val?: number) => {
+      const data: PriceData = await res.json();
+      setPrices(data);
+      lastKnownRef.current = data;
+      setError(false);
+    } catch {
+      if (lastKnownRef.current) {
+        setPrices(lastKnownRef.current);
+      }
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPrices();
+    const interval = setInterval(fetchPrices, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatPrice = (val?: number) => {
     if (typeof val !== 'number') return '0.00';
     if (val >= 1000) return val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     if (val >= 1) return val.toFixed(4);
@@ -60,35 +80,31 @@ export function CryptoPriceTicker() {
     const sign = val >= 0 ? '+' : '';
     return `${sign}${val.toFixed(2)}%`;
   };
-      setLoading(false);
-    }
-  };
 
-  useEffect(() => {
-    fetchPrices();
-    const interval = setInterval(fetchPrices, 30000);
-    return () => clearInterval(interval);
-  }, []);
+  return (
+    <div className="w-full bg-slate-950 border-b border-slate-800 overflow-hidden" style={{ height: '32px' }}>
+      <div className="flex items-center h-full px-3 space-x-6">
+        <div className="flex items-center space-x-1 shrink-0">
+          <span
+            className="inline-block w-2 h-2 rounded-full bg-green-400"
+            style={{ animation: 'blink 1.2s ease-in-out infinite' }}
+          />
+          <span className="text-green-400 text-[10px] font-bold tracking-widest uppercase">LIVE</span>
+        </div>
 
-  const formatPrice = (val: number) => {
-    if (val >= 1000) return val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    if (val >= 1) return val.toFixed(4);
-    return val.toFixed(6);
-  };
-
-  const formatChange = (val: number) => {
-    const sign = val >= 0 ? '+' : '';
-    // Change this:
-// const isPositive = data.usd_24h_change >= 0;
-
-// To this:
-const isPositive = (data.usd_24h_change || 0) >= 0;
+        <div className="flex-1 overflow-hidden">
+          {loading && !prices ? (
+            <SkeletonTicker />
+          ) : (
+            <div
+              className="flex items-center space-x-8"
+              style={{ animation: 'ticker-scroll 40s linear infinite', whiteSpace: 'nowrap' }}
             >
               {prices &&
                 (Object.keys(COIN_LABELS) as Array<keyof typeof COIN_LABELS>).map((coin) => {
                   const data = prices[coin as keyof PriceData];
                   if (!data) return null;
-                  const isPositive = data.usd_24h_change >= 0;
+                  const isPositive = (data.usd_24h_change || 0) >= 0;
                   return (
                     <span key={coin} className="inline-flex items-center space-x-2 shrink-0">
                       <span className="text-slate-400 text-xs font-semibold uppercase tracking-wide">
@@ -110,7 +126,7 @@ const isPositive = (data.usd_24h_change || 0) >= 0;
                 (Object.keys(COIN_LABELS) as Array<keyof typeof COIN_LABELS>).map((coin) => {
                   const data = prices[coin as keyof PriceData];
                   if (!data) return null;
-                  const isPositive = data.usd_24h_change >= 0;
+                  const isPositive = (data.usd_24h_change || 0) >= 0;
                   return (
                     <span key={`dup-${coin}`} className="inline-flex items-center space-x-2 shrink-0">
                       <span className="text-slate-400 text-xs font-semibold uppercase tracking-wide">
